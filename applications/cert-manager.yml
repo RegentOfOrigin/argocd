@@ -30,7 +30,8 @@ spec:
           value: '2'
       valuesObject:
         extraObjects:
-          - apiVersion: cert-manager.io/v1
+          - |
+            apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
             metadata:
               name: cloudflare
@@ -50,7 +51,8 @@ spec:
                       dnsZones:
                         - 'lexrj.com'
                         - 'regentoforigin.me'
-          - apiVersion: cert-manager.io/v1
+          - |
+            apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
             metadata:
               name: selfsigned
