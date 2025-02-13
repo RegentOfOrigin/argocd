@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: meta
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-9999"
 spec:
   project: default
   syncPolicy:

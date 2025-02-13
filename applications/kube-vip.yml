@@ -24,7 +24,31 @@ spec:
           value: '10.7.0.1'
         - name: env.cp_enable
           value: 'true'
-        - name: env.svc_enable
-          value: 'false'
         - name: env.vip_leaderelection
           value: 'true'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-vip-cloud-provider
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  syncPolicy:
+    #    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-vip
+  source:
+    repoURL: https://kube-vip.github.io/helm-charts/
+    chart: kube-vip-cloud-provider
+    targetRevision: x
+    helm:
+      valuesObject:
+        cm:
+          data:
+            cidr-global: 10.171.0.0/16
