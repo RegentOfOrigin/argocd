@@ -26,6 +26,10 @@ spec:
           ingressClassResource:
             default: true
           replicaCount: 2
+          publishService:
+            enabled: false
+          extraArgs:
+            publish-status-address: localhost
   #      defaultBackend:
   #        enabled: false
   #        name: defaultbackend
