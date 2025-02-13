@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-nfs
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  source:
+    repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts/
+    chart: csi-driver-nfs
+    targetRevision: x
+    helm:
+      parameters:
+        - name: controller.defaultOnDeletePolicy
+          value: Archive
+      valuesObject:
+        storageClass:
+          create: true
+          name: nfs
+          annotations:
+            storageclass.kubernetes.io/is-default-class: "true"
+          parameters:
+            server: tartarus.local
+            share: /tank/kubernetes
+          reclaimPolicy: Retain
+          volumeBindingMode: WaitForFirstConsumer
+          mountOptions: []

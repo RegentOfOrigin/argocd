@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  source:
+    repoURL: https://charts.jetstack.io/
+    chart: cert-manager
+    targetRevision: x
+    helm:
+      valuesObject:
+        installCRDs: true
+        replicaCount: 2
+        webhook.replicaCount: 2
+        cainjector.replicaCount: 2
+        extraObjects:
+          - |
+            apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: cloudflare
+            spec:
+              acme:
+                email: regentoforigin@proton.me
+                server: https://acme-v02.api.letsencrypt.org/directory
+                privateKeySecretRef:
+                  name: cloudflare-account-key
+                solvers:
+                  - dns01:
+                      cloudflare:
+                        apiTokenSecretRef:
+                          name: cloudflare-api-token-secret
+                          key: api-token
+                    dnsZones:
+                      - 'lexrj.com'
+                      - 'regentoforigin.me'
+          - |
+            apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: selfsigned
+            spec:
+              selfSigned: {}

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-vip
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-vip
+  source:
+    repoURL: https://kube-vip.github.io/helm-charts/
+    chart: kube-vip
+    targetRevision: x
+    helm:
+      parameters:
+        - name: config.address
+          value: 10.7.0.1
+        - name: env.cp_enable
+          value: 'true'
+        - name: env.svc_enable
+          value: 'false'
+        - name: env.vip_leaderelection
+          value: 'true'
