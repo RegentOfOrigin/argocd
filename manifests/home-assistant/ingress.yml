@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: home-assistant
 spec:
-  ingressClassName: public
   rules:
     - host: homeassistant.k8s.internal
       http:
