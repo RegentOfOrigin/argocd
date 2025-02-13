@@ -20,6 +20,8 @@ spec:
     targetRevision: x
     helm:
       parameters:
+        - name: controller.service.type
+          value: 'ClusterIP'
         - name: controller.admissionWebhooks.certManager.enabled
           value: 'true'
         - name: controller.hostPort.enabled
