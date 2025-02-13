@@ -31,7 +31,7 @@ spec:
             storageclass.kubernetes.io/is-default-class: "true"
           parameters:
             # Create service nfs-server.default.svc.cluster.local
-            server: tartarus.local
+            server: tartarus.cluster.local
             # Create better mount location
             share: /tank/kubernetes
 #            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
