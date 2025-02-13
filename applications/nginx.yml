@@ -7,12 +7,10 @@ metadata:
 spec:
   project: default
   syncPolicy:
-#    automated: {}
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-#      - Force=true
-#      - Replace=true
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx
@@ -21,23 +19,36 @@ spec:
     chart: ingress-nginx
     targetRevision: x
     helm:
+      parameters:
+        - name: controller.admissionWebhooks.certManager.enabled
+          value: true
+        - name: controller.hostPort.enabled
+          value: true
+        - name: controller.ingressClassResource.default
+          value: true
+        - name: controller.replicaCount
+          value: 2
+        - name: controller.publishService.enabled
+          value: true
+#        - name: defaultBackend.enabled
+#          value: false
+#        - name: defaultBackend.name
+#          value: defaultbackend
+#        - name: defaultBackend.replicaCount
+#          value: 2
+#        - name: defaultBackend.image.allowPrivilegeEscalation
+#          value: false
+#        - name: defaultBackend.image.image
+#          value: defaultbackend-amd64
+#        - name: defaultBackend.image.runAsGroup
+#          value: 65534
+#        - name: defaultBackend.image.runAsNonRoot
+#          value: true
+#        - name: defaultBackend.image.runAsUser
+#          value: 65534
+#        - name: defaultBackend.image.tag
+#          value: 1.5
       valuesObject:
         controller:
-          admissionWebhooks:
-            certManager:
-              enabled: true
-          hostPort:
-            enabled: true
-          ingressClassResource:
-            default: true
-          replicaCount: 2
-          publishService:
-            enabled: false
           extraArgs:
             publish-status-address: 127.0.0.1
-  #      defaultBackend:
-  #        enabled: false
-  #        name: defaultbackend
-  #        replicaCount: 2
-  #        image:
-  #          image: registry.k8s.io/defaultbackend-amd64

@@ -11,8 +11,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-#      - Force=true
-#      - Replace=true
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
@@ -21,13 +19,16 @@ spec:
     chart: cert-manager
     targetRevision: x
     helm:
+      parameters:
+        - name: replicaCount
+          value: 2
+        - name: cainjector.replicaCount
+          value: 2
+        - name: installCRDs
+          value: true
+        - name: webhook.replicaCount
+          value: 2
       valuesObject:
-        installCRDs: true
-        replicaCount: 2
-        webhook:
-          replicaCount: 2
-        cainjector:
-          replicaCount: 2
         extraObjects:
           - |
             apiVersion: cert-manager.io/v1

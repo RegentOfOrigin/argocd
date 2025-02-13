@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   syncPolicy:
-#    automated: {}
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
@@ -22,15 +22,21 @@ spec:
       parameters:
         - name: controller.defaultOnDeletePolicy
           value: Archive
+        - name: storageClass.create
+          value: true
       valuesObject:
         storageClass:
-          create: true
           name: nfs
           annotations:
             storageclass.kubernetes.io/is-default-class: "true"
           parameters:
+            # Create service nfs-server.default.svc.cluster.local
             server: tartarus.local
+            # Create better mount location
             share: /tank/kubernetes
+            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
+            csi.storage.k8s.io/provisioner-secret-namespace: "default"
           reclaimPolicy: Retain
           volumeBindingMode: WaitForFirstConsumer
-          mountOptions: []
+          mountOptions:
+            - nfsvers=4.1
