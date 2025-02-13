@@ -22,6 +22,8 @@ spec:
       parameters:
         - name: app.ingress.enabled
           value: 'true'
+        - name: app.ingress.useDefaultIngressClass
+          value: 'true'
         - name: app.ingress.hosts[0]
           value: 'dashboard.k8s.internal'
         - name: app.ingress.issuer.scope
