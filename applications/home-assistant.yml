@@ -7,16 +7,16 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    automated: {}
+#    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-      - Force=true
-      - Replace=true
+#      - Force=true
+#      - Replace=true
   destination:
     server: https://kubernetes.default.svc
     namespace: home-assistant
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd
     path: manifests/home-assistant
-    targetRevision: x
+    targetRevision: HEAD
