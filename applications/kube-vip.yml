@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   syncPolicy:
-#    automated: {}
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
@@ -36,7 +36,7 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    #    automated: {}
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true

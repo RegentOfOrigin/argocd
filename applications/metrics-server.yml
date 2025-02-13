@@ -7,12 +7,11 @@ metadata:
 spec:
   project: default
   ignoreDifferences:
-    - group: "metrics.k8s.io"
-      kind: "APIService"
+    - kind: "APIService"
       jsonPointers:
         - /spec/insecureSkipTLSVerify
   syncPolicy:
-#    automated: {}
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
