@@ -29,7 +29,7 @@ spec:
         - name: controller.ingressClassResource.default
           value: 'true'
         - name: controller.replicaCount
-          value: '2'
+          value: '3'
         - name: controller.publishService.enabled
           value: 'false'
 #        - name: defaultBackend.enabled
