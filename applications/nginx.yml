@@ -21,15 +21,15 @@ spec:
     helm:
       parameters:
         - name: controller.admissionWebhooks.certManager.enabled
-          value: true
+          value: "true"
         - name: controller.hostPort.enabled
-          value: true
+          value: "true"
         - name: controller.ingressClassResource.default
-          value: true
+          value: "true"
         - name: controller.replicaCount
-          value: 2
+          value: "2"
         - name: controller.publishService.enabled
-          value: true
+          value: "true"
 #        - name: defaultBackend.enabled
 #          value: false
 #        - name: defaultBackend.name
