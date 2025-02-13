@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-server
+spec:
+  type: ExternalName
+  externalName: tartarus.internal

@@ -30,12 +30,8 @@ spec:
           annotations:
             storageclass.kubernetes.io/is-default-class: "true"
           parameters:
-            # Create service nfs-server.default.svc.cluster.local
-            server: tartarus.cluster.local
-            # Create better mount location
+            server: nfs-server.default.svc.cluster.local
             share: /tank/kubernetes
-#            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-#            csi.storage.k8s.io/provisioner-secret-namespace: "default"
           reclaimPolicy: Retain
           volumeBindingMode: WaitForFirstConsumer
 #          mountOptions:
