@@ -12,7 +12,7 @@ spec:
       jsonPointers:
         - /spec/insecureSkipTLSVerify
   syncPolicy:
-    automated: {}
+#    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
