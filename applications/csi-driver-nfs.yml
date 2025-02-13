@@ -34,9 +34,9 @@ spec:
             server: tartarus.local
             # Create better mount location
             share: /tank/kubernetes
-            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-            csi.storage.k8s.io/provisioner-secret-namespace: "default"
+#            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
+#            csi.storage.k8s.io/provisioner-secret-namespace: "default"
           reclaimPolicy: Retain
           volumeBindingMode: WaitForFirstConsumer
-          mountOptions:
-            - nfsvers=4.1
+#          mountOptions:
+#            - nfsvers=4.1
