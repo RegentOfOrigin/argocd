@@ -7,7 +7,9 @@ metadata:
 spec:
   project: default
   ignoreDifferences:
-    - name: v1beta1.metrics.k8s.io
+    - group: '*'
+      kind: '*'
+      name: v1beta1.metrics.k8s.io
       jsonPointers:
         - /spec/insecureSkipTLSVerify
   syncPolicy:
