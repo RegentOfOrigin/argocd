@@ -21,13 +21,13 @@ spec:
     helm:
       parameters:
         - name: replicaCount
-          value: 2
+          value: '2'
         - name: cainjector.replicaCount
-          value: 2
+          value: '2'
         - name: installCRDs
-          value: true
+          value: 'true'
         - name: webhook.replicaCount
-          value: 2
+          value: '2'
       valuesObject:
         extraObjects:
           - |

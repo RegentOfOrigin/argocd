@@ -26,9 +26,9 @@ spec:
     helm:
       parameters:
         - name: apiService.insecureSkipTLSVerify
-          value: false
+          value: 'false'
         - name: replicas
-          value: 2
+          value: '2'
       valuesObject:
         tls:
           type: cert-manager

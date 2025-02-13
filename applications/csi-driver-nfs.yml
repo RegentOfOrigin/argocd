@@ -21,9 +21,9 @@ spec:
     helm:
       parameters:
         - name: controller.defaultOnDeletePolicy
-          value: Archive
+          value: 'Archive'
         - name: storageClass.create
-          value: true
+          value: 'true'
       valuesObject:
         storageClass:
           name: nfs

@@ -21,7 +21,7 @@ spec:
     helm:
       parameters:
         - name: config.address
-          value: 10.7.0.1
+          value: '10.7.0.1'
         - name: env.cp_enable
           value: 'true'
         - name: env.svc_enable

@@ -21,8 +21,8 @@ spec:
     helm:
       parameters:
         - name: app.ingress.enabled
-          value: true
+          value: 'true'
         - name: app.ingress.hosts[0]
-          value: dashboard.k8s.internal
+          value: 'dashboard.k8s.internal'
         - name: app.ingress.issuer.scope
-          value: cluster
+          value: 'cluster'
