@@ -15,8 +15,10 @@ spec:
       valuesObject:
         installCRDs: true
         replicaCount: 2
-        webhook.replicaCount: 2
-        cainjector.replicaCount: 2
+        webhook:
+          replicaCount: 2
+        cainjector:
+          replicaCount: 2
         extraObjects:
           - |
             apiVersion: cert-manager.io/v1
