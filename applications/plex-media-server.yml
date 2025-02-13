@@ -20,4 +20,28 @@ spec:
     targetRevision: x
     helm:
       parameters: []
-      valuesObject: {}
+      valuesObject:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          url: "plex.lexrj.com"
+          annotations:
+            cert-manager.io/cluster-issuer: cloudflare
+        initContainer:
+          script: "false"
+        nodeSelector:
+          lexrj.com/role: nas
+        extraVolumes:
+          - name: dev-dri
+            hostPath:
+              path: /dev/dri
+              type: Directory
+          - name: multimedia
+            hostPath:
+              path: /tank/multimedia
+              type: Directory
+        extraVolumeMounts:
+          - name: dev-dri
+            mountPath: /dev/dri
+          - name: multimedia
+            mountPath: /multimedia
