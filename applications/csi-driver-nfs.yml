@@ -2,9 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: csi-driver-nfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   syncPolicy:
+    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
