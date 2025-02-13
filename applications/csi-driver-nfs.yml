@@ -4,6 +4,10 @@ metadata:
   name: csi-driver-nfs
 spec:
   project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system

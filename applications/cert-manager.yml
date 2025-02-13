@@ -4,6 +4,10 @@ metadata:
   name: cert-manager
 spec:
   project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager

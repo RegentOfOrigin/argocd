@@ -4,6 +4,10 @@ metadata:
   name: kubernetes-dashboard
 spec:
   project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
     namespace: dashboard
@@ -22,5 +26,3 @@ spec:
             name: selfsigned
             issuer:
               scope: cluster
-        metrics-server:
-          enabled: true

@@ -4,6 +4,10 @@ metadata:
   name: nginx
 spec:
   project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx
@@ -11,20 +15,20 @@ spec:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
     targetRevision: x
-  helm:
-    valuesObject:
-      controller:
-        admissionWebhooks:
-          certManager:
+    helm:
+      valuesObject:
+        controller:
+          admissionWebhooks:
+            certManager:
+              enabled: true
+          hostPort:
             enabled: true
-        hostPort:
-          enabled: true
-        ingressClassResource:
-          default: true
-        replicaCount: 2
-#      defaultBackend:
-#        enabled: false
-#        name: defaultbackend
-#        replicaCount: 2
-#        image:
-#          image: registry.k8s.io/defaultbackend-amd64
+          ingressClassResource:
+            default: true
+          replicaCount: 2
+  #      defaultBackend:
+  #        enabled: false
+  #        name: defaultbackend
+  #        replicaCount: 2
+  #        image:
+  #          image: registry.k8s.io/defaultbackend-amd64
