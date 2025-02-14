@@ -7,11 +7,9 @@ spec:
   sourceRepos:
     - '*'
   destinations:
-    - server: https://kubernetes.default.svc
+    - namespace: '*'
+      server: '*'
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
-  namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
   orphanedResources:
