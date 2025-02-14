@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-99999"
+spec:
+  project: meta
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: x
+      helm:
+        parameters:
+          - name: redis-ha.enabled
+            value: 'true'
+          - name: applicationSet.certificate.enabled
+            value: 'true'
+          - name: applicationSet.certificate.issuer.kind
+            value: 'ClusterIssuer'
+          - name: applicationSet.certificate.issuer.name
+            value: 'cloudflare'
+          - name: ingress.enabled
+            value: 'true'
+        fileParameters:
+          - name: extraObjects[0]
+            path: meta.yaml
+        valuesObject:
+          ingress:
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
