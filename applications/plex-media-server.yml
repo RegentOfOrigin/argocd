@@ -19,8 +19,9 @@ spec:
     chart: plex-media-server
     targetRevision: x
     helm:
-      parameters: []
       valuesObject:
+        pms:
+          configExistingClaim: plex-media-server
         ingress:
           enabled: true
           ingressClassName: nginx

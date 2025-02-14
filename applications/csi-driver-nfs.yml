@@ -24,6 +24,8 @@ spec:
           value: 'Archive'
         - name: storageClass.create
           value: 'true'
+        - name: feature.enableFSGroupPolicy
+          value: 'true'
       valuesObject:
         storageClass:
           name: nfs
