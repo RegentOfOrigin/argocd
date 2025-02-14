@@ -26,8 +26,6 @@ spec:
           url: "plex.lexrj.com"
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
-        initContainer:
-          script: "while true; do sleep 60; echo 'Still alive'; done"
         nodeSelector:
           lexrj.com/role: nas
         extraVolumes:
