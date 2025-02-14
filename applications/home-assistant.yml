@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: home-assistant
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
   syncPolicy:
@@ -15,6 +15,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: home-assistant
   source:
-    repoURL: https://github.com/RegentOfOrigin/argocd
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
     path: manifests/home-assistant
     targetRevision: HEAD

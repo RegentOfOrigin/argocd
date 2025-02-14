@@ -29,12 +29,12 @@ spec:
             value: 'cloudflare'
           - name: ingress.enabled
             value: 'true'
-        fileParameters:
-          - name: extraObjects[0]
-            path: argocd/meta.yaml
         valuesObject:
           ingress:
             annotations:
               nginx.ingress.kubernetes.io/backend-protocol: HTTPS
               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
               nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    - repoURL: https://github.com/RegentOfOrigin/argocd.git
+      targetRevision: HEAD
+      path: argocd/meta.yaml

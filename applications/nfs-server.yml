@@ -15,6 +15,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   source:
-    repoURL: https://github.com/RegentOfOrigin/argocd
-    path: manifests/nfs
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
     targetRevision: HEAD
+    path: manifests/nfs

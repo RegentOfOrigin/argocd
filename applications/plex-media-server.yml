@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: plex-media-server
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
   syncPolicy:
