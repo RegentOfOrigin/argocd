@@ -20,8 +20,6 @@ spec:
     targetRevision: x
     helm:
       valuesObject:
-        pms:
-          configExistingClaim: plex-media-server
         ingress:
           enabled: true
           ingressClassName: nginx
@@ -29,7 +27,7 @@ spec:
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
         initContainer:
-          script: "false"
+          script: "while true; do sleep 60; echo 'Still alive'; done"
         nodeSelector:
           lexrj.com/role: nas
         extraVolumes:
