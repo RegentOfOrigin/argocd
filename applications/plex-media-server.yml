@@ -21,7 +21,7 @@ spec:
     helm:
       valuesObject:
         pms:
-          configExistingClaim: pvc-plex-media-server
+          configExistingClaim: plex-media-server
         ingress:
           enabled: true
           ingressClassName: nginx
