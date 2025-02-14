@@ -31,7 +31,7 @@ spec:
             value: 'true'
         fileParameters:
           - name: extraObjects[0]
-            path: meta.yaml
+            path: argocd/meta.yaml
         valuesObject:
           ingress:
             annotations:
