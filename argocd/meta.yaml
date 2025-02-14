@@ -24,7 +24,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-9999"
 spec:
-  project: default
+  project: meta
   syncPolicy:
     automated: {}
     syncOptions:
