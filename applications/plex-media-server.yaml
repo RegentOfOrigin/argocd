@@ -26,8 +26,8 @@ spec:
           value: 'nginx'
         - name: ingress.url
           value: 'plex.lexrj.com'
-        - name: initContainer.script
-          value: while true; do echo 'Still waiting'; sleep 15; done
+#        - name: initContainer.script
+#          value: while true; do echo 'Still waiting'; sleep 15; done
         - name: serviceAccount.automountServiceAccountToken
           value: 'true'
       valuesObject:
@@ -45,15 +45,15 @@ spec:
             hostPath:
               path: /tank/multimedia
               type: Directory
-          - name: old-config
-            nfs:
-              server: tartarus.internal
-              path: /tank/kubernetes/plex-backup
-              readOnly: true
+#          - name: old-config
+#            nfs:
+#              server: tartarus.internal
+#              path: /tank/kubernetes/plex-backup
+#              readOnly: true
         extraVolumeMounts:
           - name: dev-dri
             mountPath: /dev/dri
           - name: multimedia
             mountPath: /multimedia
-          - mountPath: /old-config
-            name: old-config
+#          - mountPath: /old-config
+#            name: old-config
