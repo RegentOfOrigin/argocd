@@ -43,8 +43,5 @@ spec:
             params:
               server.insecure: true
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
-      path: appprojects
-      targetRevision: HEAD
-    - repoURL: https://github.com/RegentOfOrigin/argocd.git
       path: applications
       targetRevision: HEAD
