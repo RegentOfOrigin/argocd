@@ -26,6 +26,16 @@ spec:
           url: "plex.lexrj.com"
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
+          initContainer:
+            script: |
+              if [ -d /config/Library ]; then
+                if [ -e /config/DBRepair.sh ]; then
+                  exit 0
+                fi
+                echo "You done fucked up"
+                exit 1
+              fi
+              cp -r /old-config/* /config/*
         nodeSelector:
           lexrj.com/role: nas
         extraVolumes:
@@ -37,8 +47,15 @@ spec:
             hostPath:
               path: /tank/multimedia
               type: Directory
+          - name: old-config
+            nfs:
+              server: tartarus.internal
+              path: /tank/kubernetes/plex-backup
+              readOnly: true
         extraVolumeMounts:
           - name: dev-dri
             mountPath: /dev/dri
           - name: multimedia
             mountPath: /multimedia
+          - mountPath: /old-config
+            name: old-config
