@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: '-99999'
 spec:
-  project: meta
+  project: default
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
@@ -42,5 +42,8 @@ spec:
             params:
               server.insecure: true
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
+      path: appprojects
       targetRevision: HEAD
-      path: argocd/
+    - repoURL: https://github.com/RegentOfOrigin/argocd.git
+      path: applications
+      targetRevision: HEAD
