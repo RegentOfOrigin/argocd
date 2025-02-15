@@ -26,6 +26,8 @@ spec:
           value: 'true'
         - name: feature.enableFSGroupPolicy
           value: 'true'
+#        - name: feature.enableInlineVolume
+#          value: 'true'
       valuesObject:
         storageClass:
           name: nfs
@@ -34,7 +36,11 @@ spec:
           parameters:
             server: nfs-server.default.svc.cluster.local
             share: /tank/kubernetes
+            subDir: ${pvc.metadata.namespace}-${pvc.metadata.name}
+#            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
+#            csi.storage.k8s.io/provisioner-secret-namespace: "default"
           reclaimPolicy: Retain
-          volumeBindingMode: WaitForFirstConsumer
+          volumeBindingMode: Immediate
 #          mountOptions:
 #            - nfsvers=4.1
+# kubectl create secret generic mount-options --from-literal mountOptions="nfsvers=3,hard"
