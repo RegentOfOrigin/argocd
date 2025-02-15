@@ -39,6 +39,7 @@ spec:
             server: nfs-server.default.svc.cluster.local
             share: /tank/kubernetes
             subDir: '${pvc.metadata.namespace}/${pvc.metadata.name}'
+            onDelete: 'archive'
             # kubectl create -n kube-system secret generic mount-options --from-literal mountOptions='nfsvers=4.2,hard'
             #csi.storage.k8s.io/provisioner-secret-name: 'mount-options'
             #csi.storage.k8s.io/provisioner-secret-namespace: 'default'
