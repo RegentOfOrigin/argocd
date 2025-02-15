@@ -37,4 +37,4 @@ spec:
               nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
       targetRevision: HEAD
-      path: argocd/meta.yaml
+      path: argocd/
