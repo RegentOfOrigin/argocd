@@ -26,18 +26,6 @@ spec:
           - name: configs.params.server.insecure
             value: 'true'
         valuesObject:
-          applicationSet:
-            certificate:
-              enabled: true
-              issuer:
-                kind: ClusterIssuer
-                name: cloudflare
-            ingress:
-              enabled: true
-              tls: true
-              annotations:
-                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           server:
             certificate:
               enabled: true
