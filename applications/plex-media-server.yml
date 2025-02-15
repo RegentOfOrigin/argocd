@@ -19,23 +19,29 @@ spec:
     chart: plex-media-server
     targetRevision: x
     helm:
+      parameters:
+        - name: ingress.enabled
+          value: 'true'
+        - name: ingress.ingressClassName
+          value: 'nginx'
+        - name: ingress.url
+          value: 'plex.lexrj.com'
+        - name: initContainer.script
+          value: |
+            if [ -d /config/Library ]; then
+              if [ -e /config/DBRepair.sh ]; then
+                exit 0
+              fi
+              echo "You done fucked up"
+              exit 1
+            fi
+            cp -r /old-config/* /config/*
+        - name: serviceAccount.automountServiceAccountToken
+          value: 'true'
       valuesObject:
         ingress:
-          enabled: true
-          ingressClassName: nginx
-          url: "plex.lexrj.com"
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
-          initContainer:
-            script: |
-              if [ -d /config/Library ]; then
-                if [ -e /config/DBRepair.sh ]; then
-                  exit 0
-                fi
-                echo "You done fucked up"
-                exit 1
-              fi
-              cp -r /old-config/* /config/*
         nodeSelector:
           lexrj.com/role: nas
         extraVolumes:
