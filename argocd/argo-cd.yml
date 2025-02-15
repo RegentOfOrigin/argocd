@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: argo-cd
   annotations:
-    argocd.argoproj.io/sync-wave: "-99999"
+    argocd.argoproj.io/sync-wave: '-99999'
 spec:
   project: meta
   syncPolicy:
@@ -20,15 +20,17 @@ spec:
       helm:
         parameters:
           - name: global.domain
-            value: argocd.lexrj.com
+            value: 'argocd.lexrj.com'
           - name: redis-ha.enabled
             value: 'true'
           - name: server.certificate.enabled
             value: 'true'
           - name: server.certificate.issuer.kind
-            value: ClusterIssuer
+            value: 'ClusterIssuer'
           - name: server.certificate.issuer.name
-            value: cloudflare
+            value: 'cloudflare'
+          - name: configs.params."server.insecure"
+            value: 'true'
           - name: server.ingress.enabled
             value: 'true'
           - name: server.ingress.tls
@@ -37,10 +39,6 @@ spec:
             value: 'true'
           - name: server.ingressGrpc.tls
             value: 'true'
-        valuesObject:
-          configs:
-            params:
-              server.insecure: true
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
       targetRevision: HEAD
       path: argocd/

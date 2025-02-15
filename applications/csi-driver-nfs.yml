@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: csi-driver-nfs
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: '0'
 spec:
   project: default
   syncPolicy:
@@ -21,26 +21,25 @@ spec:
     helm:
       parameters:
         - name: controller.defaultOnDeletePolicy
-          value: 'Archive'
+          value: 'archive'
         - name: storageClass.create
           value: 'true'
         - name: feature.enableFSGroupPolicy
           value: 'true'
-#        - name: feature.enableInlineVolume
-#          value: 'true'
+        #- name: feature.enableInlineVolume
+        #  value: 'true'
       valuesObject:
         storageClass:
           name: nfs
           annotations:
-            storageclass.kubernetes.io/is-default-class: "true"
+            storageclass.kubernetes.io/is-default-class: 'true'
           parameters:
             server: nfs-server.default.svc.cluster.local
             share: /tank/kubernetes
-            subDir: ${pvc.metadata.namespace}-${pvc.metadata.name}
-#            csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-#            csi.storage.k8s.io/provisioner-secret-namespace: "default"
-          reclaimPolicy: Retain
+            subDir: '${pvc.metadata.namespace}/${pvc.metadata.name}'
+            # kubectl create -n kube-system secret generic mount-options --from-literal mountOptions='nfsvers=4.2,hard'
+            #csi.storage.k8s.io/provisioner-secret-name: 'mount-options'
+            #csi.storage.k8s.io/provisioner-secret-namespace: 'default'
           volumeBindingMode: Immediate
-#          mountOptions:
-#            - nfsvers=4.1
-# kubectl create secret generic mount-options --from-literal mountOptions="nfsvers=3,hard"
+          mountOptions:
+            - nfsvers=4.2

@@ -45,5 +45,5 @@ sync to a high availability version including all of our applications.
 
 ```shell
 helm repo add argocd https://argoproj.github.io/argo-helm
-helm install argocd argocd/argo-cd --set-file "extraObjects[0]=meta.yaml"
+helm install argocd argocd/argo-cd --set-file 'extraObjects[0]=meta.yaml'
 ```

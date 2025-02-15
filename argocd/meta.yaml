@@ -30,8 +30,5 @@ spec:
     server: https://kubernetes.default.svc
   sources:
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
-      path: argocd
-      targetRevision: HEAD
-    - repoURL: https://github.com/RegentOfOrigin/argocd.git
       path: applications
       targetRevision: HEAD
