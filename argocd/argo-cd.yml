@@ -23,6 +23,8 @@ spec:
             value: argocd.lexrj.com
           - name: redis-ha.enabled
             value: 'true'
+          - name: configs.params.server.insecure
+            value: 'true'
         valuesObject:
           applicationSet:
             certificate:
