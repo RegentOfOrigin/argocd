@@ -28,6 +28,7 @@ spec:
           value: 'plex.lexrj.com'
         - name: initContainer.script
           value: |
+            #!/bin/sh
             if [ -d /config/Library ]; then
               if [ -e /config/DBRepair.sh ]; then
                 exit 0
