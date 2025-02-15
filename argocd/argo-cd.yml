@@ -29,8 +29,6 @@ spec:
             value: 'ClusterIssuer'
           - name: server.certificate.issuer.name
             value: 'cloudflare'
-          - name: configs.params."server.insecure"
-            value: 'true'
           - name: server.ingress.enabled
             value: 'true'
           - name: server.ingress.tls
@@ -39,6 +37,10 @@ spec:
             value: 'true'
           - name: server.ingressGrpc.tls
             value: 'true'
+        valuesObject:
+          configs:
+            params:
+              server.insecure: true
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
       targetRevision: HEAD
       path: argocd/
