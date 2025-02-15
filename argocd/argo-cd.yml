@@ -19,6 +19,8 @@ spec:
       targetRevision: x
       helm:
         parameters:
+          - name: global.domain
+            value: argocd.lexrj.com
           - name: redis-ha.enabled
             value: 'true'
           - name: applicationSet.certificate.enabled
