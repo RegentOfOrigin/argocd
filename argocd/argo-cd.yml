@@ -35,15 +35,9 @@ spec:
             ingress:
               enabled: true
               tls: true
-              annotations:
-                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
             ingressGrpc:
               enabled: true
               tls: true
-              annotations:
-                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
       targetRevision: HEAD
       path: argocd/
