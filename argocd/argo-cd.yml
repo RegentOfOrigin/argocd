@@ -23,20 +23,37 @@ spec:
             value: argocd.lexrj.com
           - name: redis-ha.enabled
             value: 'true'
-          - name: applicationSet.certificate.enabled
-            value: 'true'
-          - name: applicationSet.certificate.issuer.kind
-            value: 'ClusterIssuer'
-          - name: applicationSet.certificate.issuer.name
-            value: 'cloudflare'
-          - name: ingress.enabled
-            value: 'true'
         valuesObject:
-          ingress:
-            annotations:
-              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+          applicationSet:
+            certificate:
+              enabled: true
+              issuer:
+                kind: ClusterIssuer
+                name: cloudflare
+            ingress:
+              enabled: true
+              tls: true
+              annotations:
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          server:
+            certificate:
+              enabled: true
+              issuer:
+                kind: ClusterIssuer
+                name: cloudflare
+            ingress:
+              enabled: true
+              tls: true
+              annotations:
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+            ingressGrpc:
+              enabled: true
+              tls: true
+              annotations:
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     - repoURL: https://github.com/RegentOfOrigin/argocd.git
       targetRevision: HEAD
       path: argocd/
