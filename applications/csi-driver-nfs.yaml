@@ -20,6 +20,8 @@ spec:
     targetRevision: x
     helm:
       parameters:
+        - name: kubeletDir
+          value: /var/snap/microk8s/common/var/lib/kubelet
         - name: controller.defaultOnDeletePolicy
           value: 'archive'
         - name: storageClass.create
