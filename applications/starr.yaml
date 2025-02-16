@@ -16,7 +16,7 @@ spec:
     namespace: starr
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: manifests/starr
+    path: charts/starr
     targetRevision: HEAD
     helm:
       valuesObject:
