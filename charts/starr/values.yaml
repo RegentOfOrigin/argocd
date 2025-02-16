@@ -1,0 +1,117 @@
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  domain: ""
+  serviceType: ClusterIP
+  tlsAnnotations: {}
+  persistentVolumes:
+    multimedia:
+      mountOptions:
+        - soft
+        - nolock
+        - nfsvers=4.1
+      nfs:
+        path: /multimedia
+        server: nfs-server.default.svc
+    backups:
+      mountOptions:
+        - soft
+        - nolock
+        - nfsvers=4.1
+      nfs:
+        path: /backups
+        server: nfs-server.default.svc
+
+whisparr:
+  image:
+    repository: gchr.io/hotio/whisparr
+    tag: v3
+  service:
+    port: 6969
+  mountMultimediaVolume: true
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "whisparr.example.com"
+    tls: false
+
+bazarr:
+  image:
+    repository: lscr.io/linuxserver/bazarr
+  service:
+    port: 6767
+  mountMultimediaVolume: true
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "bazarr.example.com"
+    tls: false
+
+prowlarr:
+  image:
+    repository: lscr.io/linuxserver/prowlarr
+  service:
+    port: 9696
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "prowlarr.example.com"
+    tls: false
+
+radarr:
+  image:
+    repository: lscr.io/linuxserver/radarr
+  service:
+    port: 7878
+  mountMultimediaVolume: true
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "radarr.example.com"
+    tls: false
+
+overseerr:
+  image:
+    repository: lscr.io/linuxserver/overseerr
+  service:
+    port: 5055
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "overseerr.example.com"
+    tls: false
+
+sonarr:
+  image:
+    repository: lscr.io/linuxserver/sonarr
+  service:
+    port: 8989
+  mountMultimediaVolume: true
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "sonarr.example.com"
+    tls: false
+
+recyclarr:
+  image:
+    repository: recyclarr/recyclarr
+  securityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+  volumes:
+    - name: tmp
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: /tmp
+      name: tmp
+  service:
+    enabled: false

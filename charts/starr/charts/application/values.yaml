@@ -1,0 +1,113 @@
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: ""
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  enabled: true
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 80
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+
+  # -- Defines which ingress controller will implement the resource
+  ingressClassName: ""
+
+  # -- server hostname
+  # @default -- `""` (defaults to global.domain)
+  hostname: ""
+
+  # -- The path to the server
+  path: /
+
+  # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+  pathType: Prefix
+
+  # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
+  ## TLS certificate will be retrieved from a TLS secret `{{ .Chart.Name }}-server-tls`
+  ## You can create this secret via `certificate` or `certificateSecret` option
+  tls: false
+
+  # -- The list of additional hostnames to be covered by ingress record
+  # @default -- `[]`
+  extraHosts: []
+
+  # -- Additional ingress paths
+  # @default -- `[]`
+  ## Note: Supports use of custom Helm templates
+  extraPaths: []
+
+  # -- Additional ingress rules
+  # @default -- `[]`
+  ## Note: Supports use of custom Helm templates
+  extraRules: []
+
+  # -- Additional TLS configuration
+  # @default -- `[]`
+  extraTls: []
+
+resources: {}
+
+# This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe: {}
+#  httpGet:
+#    path: /
+#    port: http
+readinessProbe: {}
+#  httpGet:
+#    path: /
+#    port: http
+
+mountBackupsVolume: false
+mountMultimediaVolume: false
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

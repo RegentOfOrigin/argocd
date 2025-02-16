@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  annotations:
+    argocd.argoproj.io/sync-wave: '10'
+spec:
+  project: default
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: starr
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: manifests/starr
+    targetRevision: HEAD
+    helm:
+      valuesObject:
+        global:
+          tlsAnnotations:
+            cert-manager.io/cluster-issuer: cloudflare
+          persistentVolumes:
+            multimedia:
+              nfs:
+                path: /tank/multimedia
+            backups:
+              nfs:
+                path: /tank/multimedia
+        whisparr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "whisparr.lexrj.com"
+            tls: true
+        bazarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "bazarr.lexrj.com"
+            tls: true
+        prowlarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "prowlarr.lexrj.com"
+            tls: true
+        radarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "radarr.lexrj.com"
+            tls: true
+        overseerr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "overseerr.lexrj.com"
+            tls: true
+        sonarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "sonarr.lexrj.com"
+            tls: true
+        recyclarr:
+          enabled: true

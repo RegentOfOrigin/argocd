@@ -28,8 +28,8 @@ spec:
           value: 'true'
         - name: controller.ingressClassResource.default
           value: 'true'
-        - name: controller.replicaCount
-          value: '3'
+        - name: controller.kind
+          value: 'DaemonSet'
         - name: controller.publishService.enabled
           value: 'false'
 #        - name: defaultBackend.enabled

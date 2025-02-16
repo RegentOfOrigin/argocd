@@ -1,0 +1,27 @@
+{{- with .Values.global.persistentVolumes.multimedia }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $.Release.Name }}-multimedia-pvc
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+---
+{{- with .Values.global.persistentVolumes.multimedia }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $.Release.Name }}-backups-pvc
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  {{- toYaml . | nindent 2 }}
+{{- end }}
