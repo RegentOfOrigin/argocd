@@ -58,11 +58,11 @@ Create the name of the service account to use
 - name: config
   persistentVolumeClaim:
     claimName: {{ include "application.fullname" . }}-config-pvc
-{{- if .Values.multimedia.enable }}
+{{- if .Values.multimedia.enabled }}
 - name: multimedia
   {{ .Values.multimedia.volume | default .Values.global.multimedia | toYaml | nindent 2 }}
 {{- end }}
-{{- if .Values.backups.enable }}
+{{- if .Values.backups.enabled }}
 - name: backups
   {{ .Values.backups.volume | default .Values.global.backups | toYaml | nindent 2 }}
 {{- end }}
@@ -72,11 +72,11 @@ Create the name of the service account to use
 {{- define "application.volumeMounts" -}}
 - name: config
   mountPath: /config
-{{- if .Values.mountMultimediaVolume }}
+{{- if .Values.multimedia.enabled }}
 - name: multimedia
   mountPath: /multimedia
 {{- end }}
-{{- if .Values.mountBackupsVolume }}
+{{- if .Values.backups.enabled }}
 - name: backups
   mountPath: /backups
 {{- end }}

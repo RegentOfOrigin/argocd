@@ -102,11 +102,11 @@ readinessProbe: {}
 #    port: http
 
 multimedia:
-  enabled: true
+  enabled: false
   # volume: {}
 
 backups:
-  enabled: true
+  enabled: false
   # volume: {}
 
 # Additional volumes on the output Deployment definition.

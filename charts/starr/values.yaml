@@ -21,6 +21,8 @@ global:
 radarr:
   image:
     repository: lscr.io/linuxserver/radarr
+  multimedia:
+    enable: false
   service:
     port: 7878
   serviceAccount:
@@ -33,6 +35,8 @@ radarr:
 sonarr:
   image:
     repository: lscr.io/linuxserver/sonarr
+  multimedia:
+    enable: false
   service:
     port: 8989
   serviceAccount:
@@ -46,6 +50,8 @@ whisparr:
   image:
     repository: gchr.io/hotio/whisparr
     tag: v3
+  multimedia:
+    enable: false
   service:
     port: 6969
   serviceAccount:
@@ -66,12 +72,12 @@ prowlarr:
     enabled: false
     hostname: "prowlarr.example.com"
     tls: false
-  multimedia:
-    enable: false
 
 bazarr:
   image:
     repository: lscr.io/linuxserver/bazarr
+  multimedia:
+    enable: true
   service:
     port: 6767
   serviceAccount:
@@ -87,8 +93,6 @@ recyclarr:
   securityContext:
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
-  multimedia:
-    enable: false
   volumes:
     - name: tmp
       emptyDir: {}
@@ -103,8 +107,6 @@ overseerr:
     repository: lscr.io/linuxserver/overseerr
   service:
     port: 5055
-  multimedia:
-    enable: false
   serviceAccount:
     create: true
   ingress:

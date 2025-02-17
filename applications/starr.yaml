@@ -25,13 +25,12 @@ spec:
             annotations:
               nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
               cert-manager.io/cluster-issuer: cloudflare
-          persistentVolumes:
-            multimedia:
-              nfs:
-                path: /tank/multimedia
-            backups:
-              nfs:
-                path: /tank/multimedia
+          multimedia:
+            nfs:
+              path: /tank/multimedia
+          backups:
+            nfs:
+              path: /tank/multimedia
         whisparr:
           enabled: true
           ingress:
