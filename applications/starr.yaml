@@ -31,35 +31,11 @@ spec:
           backups:
             nfs:
               path: /tank/multimedia
-        whisparr:
-          enabled: true
-          ingress:
-            enabled: true
-            hostname: "whisparr.lexrj.com"
-            tls: true
-        bazarr:
-          enabled: true
-          ingress:
-            enabled: true
-            hostname: "bazarr.lexrj.com"
-            tls: true
-        prowlarr:
-          enabled: true
-          ingress:
-            enabled: true
-            hostname: "prowlarr.lexrj.com"
-            tls: true
         radarr:
           enabled: true
           ingress:
             enabled: true
             hostname: "radarr.lexrj.com"
-            tls: true
-        overseerr:
-          enabled: true
-          ingress:
-            enabled: true
-            hostname: "overseerr.lexrj.com"
             tls: true
         sonarr:
           enabled: true
@@ -67,5 +43,31 @@ spec:
             enabled: true
             hostname: "sonarr.lexrj.com"
             tls: true
+        whisparr:
+          enabled: true
+          image:
+            tag: v3
+          ingress:
+            enabled: true
+            hostname: "whisparr.lexrj.com"
+            tls: true
+        prowlarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "prowlarr.lexrj.com"
+            tls: true
+        bazarr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "bazarr.lexrj.com"
+            tls: true
         recyclarr:
           enabled: true
+        overseerr:
+          enabled: true
+          ingress:
+            enabled: true
+            hostname: "overseerr.lexrj.com"
+            tls: true

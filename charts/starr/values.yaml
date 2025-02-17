@@ -48,8 +48,7 @@ sonarr:
 
 whisparr:
   image:
-    repository: gchr.io/hotio/whisparr
-    tag: v3
+    repository: ghcr.io/hotio/whisparr
   multimedia:
     enable: false
   service:
