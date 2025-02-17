@@ -12,11 +12,11 @@ global:
   multimedia:
     nfs:
       path: /multimedia
-      server: nfs-server.default.svc
+      server: nfs-server.default.svc.cluster.local
   backups:
     nfs:
       path: /backups
-      server: nfs-server.default.svc
+      server: nfs-server.default.svc.cluster.local
 
 radarr:
   statefulSet:
