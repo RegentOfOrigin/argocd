@@ -21,8 +21,10 @@ spec:
     helm:
       valuesObject:
         global:
-          tlsAnnotations:
-            cert-manager.io/cluster-issuer: cloudflare
+          ingress:
+            annotations:
+              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+              cert-manager.io/cluster-issuer: cloudflare
           persistentVolumes:
             multimedia:
               nfs:

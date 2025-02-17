@@ -55,20 +55,23 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "application.volumes" -}}
-{{- if .Values.mountMultimediaVolume }}
+- name: config
+  persistentVolumeClaim:
+    claimName: {{ include "application.fullname" . }}-config-pvc
+{{- if .Values.multimedia.enable }}
 - name: multimedia
-  persistentVolumeClaim:
-    claimName: {{ $.Release.Name }}-multimedia-pvc
+  {{ .Values.multimedia.volume | default .Values.global.multimedia | toYaml | nindent 2 }}
 {{- end }}
-{{- if .Values.mountBackupsVolume }}
+{{- if .Values.backups.enable }}
 - name: backups
-  persistentVolumeClaim:
-    claimName: {{ $.Release.Name }}-backups-pvc
+  {{ .Values.backups.volume | default .Values.global.backups | toYaml | nindent 2 }}
 {{- end }}
 {{ toYaml .Values.volumes }}
 {{- end }}
 
 {{- define "application.volumeMounts" -}}
+- name: config
+  mountPath: /config
 {{- if .Values.mountMultimediaVolume }}
 - name: multimedia
   mountPath: /multimedia

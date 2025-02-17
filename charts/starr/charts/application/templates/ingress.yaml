@@ -5,7 +5,7 @@ metadata:
   name: {{ include "application.fullname" . }}
   labels:
     {{- include "application.labels" . | nindent 4 }}
-  {{- with .Values.global.tlsAnnotations | merge .Values.ingress.annotations }}
+  {{- with .Values.ingress.annotations | merge .Values.global.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}

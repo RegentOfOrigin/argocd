@@ -5,24 +5,42 @@ fullnameOverride: ""
 global:
   domain: ""
   serviceType: ClusterIP
-  tlsAnnotations: {}
-  persistentVolumes:
-    multimedia:
-      mountOptions:
-        - soft
-        - nolock
-        - nfsvers=4.1
-      nfs:
-        path: /multimedia
-        server: nfs-server.default.svc
-    backups:
-      mountOptions:
-        - soft
-        - nolock
-        - nfsvers=4.1
-      nfs:
-        path: /backups
-        server: nfs-server.default.svc
+  ingress:
+    annotations: {}
+    capacity:
+      storage: 1EiB
+  multimedia:
+    nfs:
+      path: /multimedia
+      server: nfs-server.default.svc
+  backups:
+    nfs:
+      path: /backups
+      server: nfs-server.default.svc
+
+radarr:
+  image:
+    repository: lscr.io/linuxserver/radarr
+  service:
+    port: 7878
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "radarr.example.com"
+    tls: false
+
+sonarr:
+  image:
+    repository: lscr.io/linuxserver/sonarr
+  service:
+    port: 8989
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "sonarr.example.com"
+    tls: false
 
 whisparr:
   image:
@@ -30,25 +48,11 @@ whisparr:
     tag: v3
   service:
     port: 6969
-  mountMultimediaVolume: true
   serviceAccount:
     create: true
   ingress:
     enabled: false
     hostname: "whisparr.example.com"
-    tls: false
-
-bazarr:
-  image:
-    repository: lscr.io/linuxserver/bazarr
-  service:
-    port: 6767
-  mountMultimediaVolume: true
-  serviceAccount:
-    create: true
-  ingress:
-    enabled: false
-    hostname: "bazarr.example.com"
     tls: false
 
 prowlarr:
@@ -62,43 +66,19 @@ prowlarr:
     enabled: false
     hostname: "prowlarr.example.com"
     tls: false
+  multimedia:
+    enable: false
 
-radarr:
+bazarr:
   image:
-    repository: lscr.io/linuxserver/radarr
+    repository: lscr.io/linuxserver/bazarr
   service:
-    port: 7878
-  mountMultimediaVolume: true
+    port: 6767
   serviceAccount:
     create: true
   ingress:
     enabled: false
-    hostname: "radarr.example.com"
-    tls: false
-
-overseerr:
-  image:
-    repository: lscr.io/linuxserver/overseerr
-  service:
-    port: 5055
-  serviceAccount:
-    create: true
-  ingress:
-    enabled: false
-    hostname: "overseerr.example.com"
-    tls: false
-
-sonarr:
-  image:
-    repository: lscr.io/linuxserver/sonarr
-  service:
-    port: 8989
-  mountMultimediaVolume: true
-  serviceAccount:
-    create: true
-  ingress:
-    enabled: false
-    hostname: "sonarr.example.com"
+    hostname: "bazarr.example.com"
     tls: false
 
 recyclarr:
@@ -107,6 +87,8 @@ recyclarr:
   securityContext:
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
+  multimedia:
+    enable: false
   volumes:
     - name: tmp
       emptyDir: {}
@@ -115,3 +97,17 @@ recyclarr:
       name: tmp
   service:
     enabled: false
+
+overseerr:
+  image:
+    repository: lscr.io/linuxserver/overseerr
+  service:
+    port: 5055
+  multimedia:
+    enable: false
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: false
+    hostname: "overseerr.example.com"
+    tls: false
