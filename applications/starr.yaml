@@ -28,9 +28,11 @@ spec:
           multimedia:
             nfs:
               path: /tank/multimedia
+              server: 10.0.7.2
           backups:
             nfs:
               path: /tank/multimedia
+              server: 10.0.7.2
         radarr:
           enabled: true
           ingress:
