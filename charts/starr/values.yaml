@@ -19,8 +19,9 @@ global:
       server: nfs-server.default.svc
 
 radarr:
-  image:
-    repository: lscr.io/linuxserver/radarr
+  statefulSet:
+    image:
+      repository: lscr.io/linuxserver/radarr
   multimedia:
     enable: false
   service:
@@ -33,8 +34,9 @@ radarr:
     tls: false
 
 sonarr:
-  image:
-    repository: lscr.io/linuxserver/sonarr
+  statefulSet:
+    image:
+      repository: lscr.io/linuxserver/sonarr
   multimedia:
     enable: false
   service:
@@ -47,8 +49,9 @@ sonarr:
     tls: false
 
 whisparr:
-  image:
-    repository: ghcr.io/hotio/whisparr
+  statefulSet:
+    image:
+      repository: ghcr.io/hotio/whisparr
   multimedia:
     enable: false
   service:
@@ -61,8 +64,9 @@ whisparr:
     tls: false
 
 prowlarr:
-  image:
-    repository: lscr.io/linuxserver/prowlarr
+  statefulSet:
+    image:
+      repository: lscr.io/linuxserver/prowlarr
   service:
     port: 9696
   serviceAccount:
@@ -73,8 +77,9 @@ prowlarr:
     tls: false
 
 bazarr:
-  image:
-    repository: lscr.io/linuxserver/bazarr
+  statefulSet:
+    image:
+      repository: lscr.io/linuxserver/bazarr
   multimedia:
     enable: true
   service:
@@ -87,23 +92,25 @@ bazarr:
     tls: false
 
 recyclarr:
-  image:
-    repository: recyclarr/recyclarr
-  securityContext:
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
-  volumes:
-    - name: tmp
-      emptyDir: {}
-  volumeMounts:
-    - mountPath: /tmp
-      name: tmp
+  statefulSet:
+    image:
+      repository: recyclarr/recyclarr
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+    volumes:
+      - name: tmp
+        emptyDir: {}
+    volumeMounts:
+      - mountPath: /tmp
+        name: tmp
   service:
     enabled: false
 
 overseerr:
-  image:
-    repository: lscr.io/linuxserver/overseerr
+  statefulSet:
+    image:
+      repository: lscr.io/linuxserver/overseerr
   service:
     port: 5055
   serviceAccount:
