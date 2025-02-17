@@ -53,32 +53,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{- define "application.volumes" -}}
-- name: config
-  persistentVolumeClaim:
-    claimName: {{ include "application.fullname" . }}-config-pvc
-{{- if .Values.multimedia.enabled }}
-- name: multimedia
-  {{ .Values.multimedia.volume | default .Values.global.multimedia | toYaml | nindent 2 }}
-{{- end }}
-{{- if .Values.backups.enabled }}
-- name: backups
-  {{ .Values.backups.volume | default .Values.global.backups | toYaml | nindent 2 }}
-{{- end }}
-{{ toYaml .Values.volumes }}
-{{- end }}
-
-{{- define "application.volumeMounts" -}}
-- name: config
-  mountPath: /config
-{{- if .Values.multimedia.enabled }}
-- name: multimedia
-  mountPath: /multimedia
-{{- end }}
-{{- if .Values.backups.enabled }}
-- name: backups
-  mountPath: /backups
-{{- end }}
-{{ toYaml .Values.volumeMounts }}
-{{- end }}
