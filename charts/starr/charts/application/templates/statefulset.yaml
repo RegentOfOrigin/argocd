@@ -53,8 +53,8 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.statefulSet.image.repository }}:{{ .Values.image.tag | default "latest" }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.statefulSet.image.repository }}:{{ .Values.statefulSet.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.statefulSet.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
