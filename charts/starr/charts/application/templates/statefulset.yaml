@@ -1,52 +1,69 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ include "application.fullname" . }}
+  name: {{ include "application.name" . }}
   labels:
+{{/*    name: ""*/}}
     {{- include "application.labels" . | nindent 4 }}
+  {{- with .Values.statefulSet.annotations }}
+  annotations:
+    {{ toYaml . | indent 4 }}
+  {{- end }}
 spec:
-  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+      {{- if .Values.statefulSet.config.storageClassName }}
+        storageClassName: {{ .Values.statefulSet.config.storageClassName }}
+      {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.statefulSet.config.storage }}
+  serviceName: {{ include "application.name" . }}
   selector:
     matchLabels:
       {{- include "application.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.statefulSet.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "application.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
+        {{- with .Values.statefulSet.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      terminationGracePeriodSeconds: 120
+      {{- with .Values.statefulSet.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "application.serviceAccountName" . }}
-      {{- with .Values.podSecurityContext }}
+      {{- with .Values.statefulSet.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- with .Values.securityContext }}
+          {{- with .Values.statefulSet.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          image: "{{ .Values.statefulSet.image.repository }}:{{ .Values.image.tag | default "latest" }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with .Values.statefulSet.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
+          {{- with .Values.statefulSet.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -61,13 +78,10 @@ spec:
             - name: backups
               mountPath: /backups
             {{- end }}
-            {{- with .Values.volumeMounts }}
+            {{- with .Values.statefulSet.volumeMounts }}
             {{ toYaml . | nindent 12 }}
             {{- end }}
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: {{ include "application.fullname" . }}-config-pvc
         {{- if .Values.multimedia.enabled }}
         - name: multimedia
           {{ .Values.multimedia.volume | default .Values.global.multimedia | toYaml | nindent 10 }}
@@ -76,18 +90,18 @@ spec:
         - name: backups
           {{ .Values.backups.volume | default .Values.global.backups | toYaml | nindent 10 }}
         {{- end }}
-        {{- with .Values.volumes }}
+        {{- with .Values.statefulSet.volumes }}
         {{ toYaml . | nindent 8 }}
         {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.statefulSet.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.statefulSet.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.statefulSet.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

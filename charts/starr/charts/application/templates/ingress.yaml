@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "application.fullname" . }}
+  name: {{ include "application.name" . }}
   labels:
     {{- include "application.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations | merge .Values.global.ingress.annotations }}
@@ -24,7 +24,7 @@ spec:
             pathType: {{ .Values.ingress.pathType }}
             backend:
               service:
-                name: {{ include "application.fullname" . }}
+                name: {{ include "application.name" $ }}
                 port:
                   number: {{ .Values.service.port }}
     {{- range .Values.ingress.extraHosts }}
@@ -35,7 +35,7 @@ spec:
             pathType: {{ .pathType | default $.Values.ingress.pathType }}
             backend:
               service:
-                name: {{ include "application.fullname" $ }}
+                name: {{ include "application.name" $ }}
                 port:
                   number: {{ $.Values.service.port }}
     {{- end }}
@@ -52,7 +52,7 @@ spec:
         - {{ tpl .name $ }}
         {{- end }}
       {{- end }}
-      secretName: {{ .Chart.Name }}-server-tls
+      secretName: {{ include "application.name" . }}}-server-tls
     {{- end }}
     {{- with .Values.ingress.extraTls }}
       {{- tpl (toYaml .) $ | nindent 4 }}
