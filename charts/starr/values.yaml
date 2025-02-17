@@ -23,7 +23,7 @@ radarr:
     image:
       repository: lscr.io/linuxserver/radarr
   multimedia:
-    enable: false
+    enabled: true
   service:
     port: 7878
   serviceAccount:
@@ -38,7 +38,7 @@ sonarr:
     image:
       repository: lscr.io/linuxserver/sonarr
   multimedia:
-    enable: false
+    enabled: true
   service:
     port: 8989
   serviceAccount:
@@ -53,7 +53,7 @@ whisparr:
     image:
       repository: ghcr.io/hotio/whisparr
   multimedia:
-    enable: false
+    enabled: true
   service:
     port: 6969
   serviceAccount:
@@ -81,7 +81,7 @@ bazarr:
     image:
       repository: lscr.io/linuxserver/bazarr
   multimedia:
-    enable: true
+    enabled: true
   service:
     port: 6767
   serviceAccount:
