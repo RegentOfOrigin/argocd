@@ -7,7 +7,6 @@ spec:
   {{- if .Values.config.storageClassName }}
   storageClassName: {{ .Values.config.storageClassName }}
   {{- end }}
-  volumeName: {{ .Release.Name }}-config-pvc
   resources:
     requests:
-      storage: {{ .Values.config.storage  }}
+      storage: {{ .Values.config.storage }}
