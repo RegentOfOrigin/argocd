@@ -52,7 +52,7 @@ spec:
         - {{ tpl .name $ }}
         {{- end }}
       {{- end }}
-      secretName: {{ include "application.name" . }}}-server-tls
+      secretName: {{ include "application.name" . }}-server-tls
     {{- end }}
     {{- with .Values.ingress.extraTls }}
       {{- tpl (toYaml .) $ | nindent 4 }}
