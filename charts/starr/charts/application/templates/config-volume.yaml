@@ -4,7 +4,9 @@ metadata:
   name: {{ include "application.fullname" . }}-config-pvc
 spec:
   accessModes: [ ReadWriteOnce ]
+  {{- if .Values.config.storageClassName }}
   storageClassName: {{ .Values.config.storageClassName }}
+  {{- end }}
   volumeName: {{ .Release.Name }}-config-pvc
   resources:
     requests:
