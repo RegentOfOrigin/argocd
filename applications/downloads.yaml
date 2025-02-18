@@ -28,7 +28,7 @@ spec:
                 server: 10.0.7.2
           volumeMounts:
             - name: multimedia
-              path: /multimedia
+              mountPath: /multimedia
           ingress:
             enabled: true
             hostname: "torrent.lexrj.com"
@@ -46,7 +46,7 @@ spec:
                 server: 10.0.7.2
           volumeMounts:
             - name: multimedia
-              path: /multimedia
+              mountPath: /multimedia
           ingress:
             enabled: true
             hostname: "usenet.lexrj.com"
