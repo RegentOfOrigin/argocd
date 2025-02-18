@@ -8,7 +8,7 @@ global:
   ingress:
     annotations: {}
     capacity:
-      storage: 1EiB
+      storage: 1Ei
   multimedia:
     nfs:
       path: /multimedia

@@ -7,7 +7,7 @@ qbittorrent:
   vpn:
     enabled: false
 
-  storage: 2GiB
+  storage: 2Gi
 
   # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
   serviceAccount:
@@ -78,7 +78,7 @@ sabnzbd:
   vpn:
     enabled: false
 
-  storage: 2GiB
+  storage: 2Gi
 
   # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
   serviceAccount:
