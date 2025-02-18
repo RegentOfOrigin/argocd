@@ -41,6 +41,15 @@ spec:
 {{/*          - name: net.ipv6.conf.all.disable_ipv6*/}}
 {{/*            value: "1"*/}}
 {{/*      {{- end }}*/}}
+      {{- if .Values.sabnzbd.vpn.enabled }}
+      initContainers:
+        - name: init
+          image: alpine
+          command:
+            - sh
+            - -c
+            - sysctl -w net.ipv4.ip_forward=1 && sysctl -w net.ipv4.conf.all.forwarding=1
+      {{- end }}
       containers:
         - name: main
           {{- if .Values.sabnzbd.vpn.enabled }}
