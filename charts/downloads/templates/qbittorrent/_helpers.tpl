@@ -4,8 +4,8 @@ Common labels
 {{- define "qbittorrent.labels" -}}
 helm.sh/chart: {{ .Chart.Name }}
 {{ include "qbittorrent.selectorLabels" . }}
-{{- if .Values.qbittorrent.image.tag }}
-app.kubernetes.io/version: {{ .Values.qbittorrent.image.tag | quote }}
+{{- with .Values.qbittorrent.image.tag }}
+app.kubernetes.io/version: {{ . | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -14,6 +14,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "qbittorrent.selectorLabels" -}}
-app.kubernetes.io/name: {{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: qbittorrent
+app.kubernetes.io/instance: qbittorrent
 {{- end }}
