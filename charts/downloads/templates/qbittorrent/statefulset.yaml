@@ -33,56 +33,14 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: qbittorrent
-      {{- if .Values.qbittorrent.vpn.enabled }}
-      securityContext:
-        sysctls:
-          - name: net.ipv4.conf.all.src_valid_mark
-            value: "1"
-          - name: net.ipv6.conf.all.disable_ipv6
-            value: "1"
-      {{- end }}
       containers:
         - name: main
-          {{- if .Values.qbittorrent.vpn.enabled }}
-          securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
-          {{- end }}
           image: "{{ .Values.qbittorrent.image.repository }}:{{ .Values.qbittorrent.image.tag | default "latest" }}"
           imagePullPolicy: {{ .Values.qbittorrent.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.qbittorrent.service.port }}
               protocol: TCP
-          env:
-            - name: VPN_ENABLED
-              value: {{ .Values.qbittorrent.vpn.enabled | quote }}
-            {{- if .Values.qbittorrent.vpn.enabled }}
-            # Stored in the vpc under the wireguard folder
-            - name: VPN_CONF
-              value: wg0
-            - name: VPN_PROVIDER
-              value: proton
-            - name: VPN_LAN_NETWORK
-              value: 10.0.0.0/16
-            - name: VPN_LAN_LEAK_ENABLED
-              value: "false"
-            - name: VPN_EXPOSE_PORTS_ON_LAN
-              value: {{ .Values.qbittorrent.service.port }}/tcp,{{ .Values.qbittorrent.service.port }}/udp
-            - name: VPN_AUTO_PORT_FORWARD
-              value: "true"
-            - name: VPN_KEEP_LOCAL_DNS
-              value: "true"
-            - name: VPN_FIREWALL_TYPE
-              value: "auto"
-              # Host an in cluster proxy
-            - name: PRIVOXY_ENABLED
-              value: "false"
-              # Set unbound at the cluster level
-            - name: UNBOUND_ENABLED
-              value: "false"
-            {{- end }}
           {{- with .Values.qbittorrent.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}

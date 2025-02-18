@@ -4,9 +4,6 @@ qbittorrent:
     pullPolicy: IfNotPresent
     tag: ""
 
-  vpn:
-    enabled: false
-
   storage: 2Gi
 
   # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
@@ -45,14 +42,14 @@ qbittorrent:
     tls: false
 
   # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-#  livenessProbe:
-#    httpGet:
-#      path: /
-#      port: http
-#  readinessProbe:
-#    httpGet:
-#      path: /
-#      port: http
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
 
   # Additional volumes on the output Deployment definition.
   volumes: []
@@ -74,9 +71,6 @@ sabnzbd:
     repository: ghcr.io/hotio/sabnzbd
     pullPolicy: IfNotPresent
     tag: ""
-
-  vpn:
-    enabled: false
 
   storage: 2Gi
 
@@ -116,14 +110,14 @@ sabnzbd:
     tls: false
 
   # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-#  livenessProbe:
-#    httpGet:
-#      path: /
-#      port: http
-#  readinessProbe:
-#    httpGet:
-#      path: /
-#      port: http
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
 
   # Additional volumes on the output Deployment definition.
   volumes: []
