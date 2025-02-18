@@ -59,6 +59,7 @@ spec:
         - name: main
           {{- if .Values.qbittorrent.vpn.enabled }}
           securityContext:
+            privileged: true
             capabilities:
               add:
                 - NET_ADMIN
