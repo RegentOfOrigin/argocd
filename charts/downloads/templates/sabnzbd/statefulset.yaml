@@ -33,27 +33,13 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: sabnzbd
-{{/*      {{- if .Values.sabnzbd.vpn.enabled }}*/}}
-{{/*      securityContext:*/}}
-{{/*        sysctls:*/}}
-{{/*          - name: net.ipv4.conf.all.src_valid_mark*/}}
-{{/*            value: "1"*/}}
-{{/*          - name: net.ipv6.conf.all.disable_ipv6*/}}
-{{/*            value: "1"*/}}
-{{/*      {{- end }}*/}}
       {{- if .Values.sabnzbd.vpn.enabled }}
-      initContainers:
-        - name: init
-          image: alpine
-          command:
-            - sh
-            - -c
-            - sysctl -w net.ipv4.ip_forward=1 && sysctl -w net.ipv4.conf.all.forwarding=1
-          securityContext:
-            privileged: true
-            capabilities:
-              add:
-                - NET_ADMIN
+      securityContext:
+        sysctls:
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+          - name: net.ipv6.conf.all.disable_ipv6
+            value: "1"
       {{- end }}
       containers:
         - name: main
