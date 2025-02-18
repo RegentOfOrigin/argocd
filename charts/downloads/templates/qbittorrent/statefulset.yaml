@@ -33,14 +33,14 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: qbittorrent
-      {{- if .Values.qbittorrent.vpn.enabled }}
-      securityContext:
-        sysctls:
-          - name: net.ipv4.conf.all.src_valid_mark
-            value: "1"
-          - name: net.ipv6.conf.all.disable_ipv6
-            value: "1"
-      {{- end }}
+{{/*      {{- if .Values.qbittorrent.vpn.enabled }}*/}}
+{{/*      securityContext:*/}}
+{{/*        sysctls:*/}}
+{{/*          - name: net.ipv4.conf.all.src_valid_mark*/}}
+{{/*            value: "1"*/}}
+{{/*          - name: net.ipv6.conf.all.disable_ipv6*/}}
+{{/*            value: "1"*/}}
+{{/*      {{- end }}*/}}
       containers:
         - name: main
           {{- if .Values.qbittorrent.vpn.enabled }}
