@@ -7,15 +7,15 @@ metadata:
 spec:
   volumeClaimTemplates:
     - metadata:
-        name: incomplete
+        name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.qbittorrent.storageClassName }}
-        storageClassName: {{ .Values.qbittorrent.storageClassName }}
+      {{- if .Values.sabnzbd.storageClassName }}
+        storageClassName: {{ .Values.sabnzbd.storageClassName }}
       {{- end }}
         resources:
           requests:
-            storage: {{ .Values.qbittorrent.storage }}
+            storage: {{ .Values.sabnzbd.storage }}
   serviceName: qbittorrent
   selector:
     matchLabels:
