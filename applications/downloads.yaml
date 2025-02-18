@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: downloads
+  annotations:
+    argocd.argoproj.io/sync-wave: '10'
+spec:
+  project: default
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: downloads
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: charts/downloads
+    targetRevision: HEAD
+    helm:
+      valuesObject:
+        qbittorrent:
+          volumes:
+            - name: multimedia
+              nfs:
+                path: /tank/multimedia
+                server: 10.0.7.2
+          volumeMounts:
+            - name: multimedia
+              path: /multimedia
+          ingress:
+            enabled: true
+            hostname: "torrent.lexrj.com"
+            tls: true
+            annotations:
+              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+              cert-manager.io/cluster-issuer: cloudflare
+          vpn:
+            enabled: true
+        sabnzbd:
+          volumes:
+            - name: multimedia
+              nfs:
+                path: /tank/multimedia
+                server: 10.0.7.2
+          volumeMounts:
+            - name: multimedia
+              path: /multimedia
+          ingress:
+            enabled: true
+            hostname: "usenet.lexrj.com"
+            tls: true
+            annotations:
+              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+              cert-manager.io/cluster-issuer: cloudflare
+          vpn:
+            enabled: true

@@ -22,6 +22,10 @@ radarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/radarr
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -37,6 +41,10 @@ sonarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/sonarr
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -52,6 +60,10 @@ whisparr:
   statefulSet:
     image:
       repository: ghcr.io/hotio/whisparr
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -67,6 +79,10 @@ prowlarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/prowlarr
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   service:
     port: 9696
   serviceAccount:

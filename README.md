@@ -1,9 +1,9 @@
 RegentOfOrigin's Kubernetes Configuration
 =========================================
 
-This is my Kubernetes cluster configuration. The tested basis for these
-configs is a 3+ baremetal Microk8s cluster with coredns installed. See my
-ansible repo for how I bootstrap that repository.
+This is a sample kubernetes cluster configuration. The general test
+environment is a 3+ baremental Microk8s cluster with coredns installed.
+See my ansible repo for how I bootstraped that cluster.
 
 # Assumptions
 
@@ -23,21 +23,7 @@ Bootstrapping is achieved by using helm to install Argo CD and automatically
 load this repository. This relies on automatic syncing and sync waves to roll
 out the various projects effectively.
 
-Secrets need to be made available to your applications in advance. This is a
-bit of a pain in the ass because most applications will deploy into their own
-namespaces. To resolve this, we'll use ExternalSecrets and a dedicated
-secrets` namespace to seed these secrets.
-
-At the time of this writing, only cert-manager requires a pre-allocated
-secret. Start by creating a [dedicated API token in your cloudflare
-account](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/#api-tokens).
-
-Now we can seed our `secrets` namespace:
-
-```shell
-kubectl create namespace secrets
-kubectl create -n secrets secret generic cloudflare-api-token-secret --from-literal=<YOUR_API_TOKEN>
-```
+Secrets need to be made available to your applications in advance.
 
 Now download [argo-cd.yaml](applications/argo-cd.yaml). We can now install a
 version of Argo CD that will then bootstrap itself and the rest of this
