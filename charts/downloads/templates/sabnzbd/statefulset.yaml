@@ -49,6 +49,11 @@ spec:
             - sh
             - -c
             - sysctl -w net.ipv4.ip_forward=1 && sysctl -w net.ipv4.conf.all.forwarding=1
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
       {{- end }}
       containers:
         - name: main
