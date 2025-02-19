@@ -28,6 +28,8 @@ spec:
             value: 'false'
           - name: env.vip_leaderelection
             value: 'false'
+          - name: env.svc_enable
+            value: 'false'
 #    - repoURL: https://kube-vip.github.io/helm-charts/
 #      chart: kube-vip-cloud-provider
 #      targetRevision: x
