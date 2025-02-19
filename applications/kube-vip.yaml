@@ -24,13 +24,15 @@ spec:
             value: '10.7.0.1'
           - name: env.cp_enable
             value: 'true'
+          - name: env.lb_enable
+            value: 'false'
           - name: env.vip_leaderelection
-            value: 'true'
-    - repoURL: https://kube-vip.github.io/helm-charts/
-      chart: kube-vip-cloud-provider
-      targetRevision: x
-      helm:
-        valuesObject:
-          cm:
-            data:
-              cidr-global: 10.171.0.0/16
+            value: 'false'
+#    - repoURL: https://kube-vip.github.io/helm-charts/
+#      chart: kube-vip-cloud-provider
+#      targetRevision: x
+#      helm:
+#        valuesObject:
+#          cm:
+#            data:
+#              cidr-global: 10.171.0.0/16
