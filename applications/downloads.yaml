@@ -21,6 +21,8 @@ spec:
     helm:
       valuesObject:
         qbittorrent:
+          nodeSelector:
+            lexrj.com/role: nas
           volumes:
             - name: multimedia
               nfs:
@@ -39,6 +41,8 @@ spec:
           vpn:
             enabled: false
         sabnzbd:
+          nodeSelector:
+            lexrj.com/role: nas
           volumes:
             - name: multimedia
               nfs:
