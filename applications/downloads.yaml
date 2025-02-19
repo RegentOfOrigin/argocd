@@ -27,7 +27,7 @@ spec:
             - name: multimedia
               nfs:
                 path: /tank/multimedia
-                server: tartarus.internal
+                server: tartarus.node.internal
           volumeMounts:
             - name: multimedia
               mountPath: /multimedia
@@ -47,7 +47,7 @@ spec:
             - name: multimedia
               nfs:
                 path: /tank/multimedia
-                server: tartarus.internal
+                server: tartarus.node.internal
           volumeMounts:
             - name: multimedia
               mountPath: /multimedia

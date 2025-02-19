@@ -28,11 +28,11 @@ spec:
           multimedia:
             nfs:
               path: /tank/multimedia
-              server: tartarus.internal
+              server: tartarus.node.internal
           backups:
             nfs:
               path: /tank/multimedia
-              server: tartarus.internal
+              server: tartarus.node.internal
         radarr:
           enabled: true
           ingress:
