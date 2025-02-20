@@ -4,4 +4,4 @@ metadata:
   name: nfs-server
 spec:
   type: ExternalName
-  externalName: tartarus.internal
+  externalName: tartarus.node.internal

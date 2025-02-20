@@ -25,6 +25,6 @@ spec:
         - name: app.ingress.useDefaultIngressClass
           value: 'true'
         - name: app.ingress.hosts[0]
-          value: 'dashboard.k8s.internal'
+          value: 'dashboard.kubernetes.lexrj.com'
         - name: app.ingress.issuer.scope
           value: 'cluster'
