@@ -1,20 +1,20 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: home-assistant
-  annotations:
-    argocd.argoproj.io/sync-wave: '10'
-spec:
-  project: default
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: home-assistant
-  source:
-    repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: manifests/home-assistant
-    targetRevision: HEAD
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: home-assistant
+#  annotations:
+#    argocd.argoproj.io/sync-wave: '10'
+#spec:
+#  project: default
+#  syncPolicy:
+#    automated: {}
+#    syncOptions:
+#      - CreateNamespace=true
+#      - ApplyOutOfSyncOnly=true
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: home-assistant
+#  source:
+#    repoURL: https://github.com/RegentOfOrigin/argocd.git
+#    path: manifests/home-assistant
+#    targetRevision: HEAD
