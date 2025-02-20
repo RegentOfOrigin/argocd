@@ -59,6 +59,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- with .Values.statefulSet.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.statefulSet.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}

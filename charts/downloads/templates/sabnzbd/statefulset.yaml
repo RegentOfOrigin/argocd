@@ -41,6 +41,10 @@ spec:
             - name: http
               containerPort: {{ .Values.sabnzbd.service.port }}
               protocol: TCP
+          {{- with .Values.sabnzbd.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.sabnzbd.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}

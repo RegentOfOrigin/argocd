@@ -41,6 +41,10 @@ spec:
             - name: http
               containerPort: {{ .Values.qbittorrent.service.port }}
               protocol: TCP
+          {{- with .Values.qbittorrent.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.qbittorrent.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}

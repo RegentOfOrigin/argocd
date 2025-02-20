@@ -7,8 +7,6 @@ global:
   serviceType: ClusterIP
   ingress:
     annotations: {}
-    capacity:
-      storage: 1Ei
   multimedia:
     nfs:
       path: /multimedia
@@ -22,10 +20,15 @@ radarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/radarr
-  livenessProbe:
-    httpGet:
-      path: /ping
-      port: http
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: http
   multimedia:
     enabled: true
   service:
@@ -41,10 +44,15 @@ sonarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/sonarr
-  livenessProbe:
-    httpGet:
-      path: /ping
-      port: http
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: http
   multimedia:
     enabled: true
   service:
@@ -60,10 +68,15 @@ whisparr:
   statefulSet:
     image:
       repository: ghcr.io/hotio/whisparr
-  livenessProbe:
-    httpGet:
-      path: /ping
-      port: http
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: http
   multimedia:
     enabled: true
   service:
@@ -79,10 +92,15 @@ prowlarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/prowlarr
-  livenessProbe:
-    httpGet:
-      path: /ping
-      port: http
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: http
   service:
     port: 9696
   serviceAccount:
@@ -96,6 +114,11 @@ bazarr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/bazarr
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
   multimedia:
     enabled: true
   service:
@@ -127,6 +150,11 @@ overseerr:
   statefulSet:
     image:
       repository: lscr.io/linuxserver/overseerr
+    env:
+      - name: PUID
+        value: '1000'
+      - name: PGID
+        value: '1000'
   service:
     port: 5055
   serviceAccount:
