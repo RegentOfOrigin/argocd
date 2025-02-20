@@ -47,8 +47,9 @@ spec:
             tls: true
         whisparr:
           enabled: true
-          image:
-            tag: v3
+          statefulSet:
+            image:
+              tag: v3
           ingress:
             enabled: true
             hostname: "whisparr.lexrj.com"
