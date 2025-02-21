@@ -22,19 +22,37 @@ spec:
         parameters:
           - name: config.address
             value: '10.5.0.1'
-          - name: env.cp_enable
-            value: 'true'
+          - name: env.vip_interface
+            value: 'auto'
           - name: env.lb_enable
-            value: 'false'
-          - name: env.vip_leaderelection
-            value: 'false'
+            value: 'true'
+          - name: env.lb_port
+            value: '6443'
+          - name: env.vip_cidr
+            value: '32'
           - name: env.svc_enable
             value: 'false'
-#    - repoURL: https://kube-vip.github.io/helm-charts/
-#      chart: kube-vip-cloud-provider
-#      targetRevision: x
-#      helm:
-#        valuesObject:
-#          cm:
-#            data:
-#              cidr-global: 10.171.0.0/16
+          - name: env.svc_election
+            value: 'false'
+          - name: env.vip_leaderelection
+            value: 'true'
+        valuesObject:
+          extraEnv:
+            - name: cp_namespace
+              value: kube-vip
+            - name: vip_leaderelection
+              value: 'true'
+            - name: cp_detect
+              value: 'true'
+            - name: k8s_config_file
+              value: /etc/kubernetes/admin.conf
+            - name: interface
+              value: auto
+          volumes:
+            - name: kubeconfig
+              hostPath:
+                path: /var/snap/microk8s/current/credentials/client.config
+                type: File
+          volumeMounts:
+            - name: kubeconfig
+              mountPath: /etc/kubernetes/admin.conf
