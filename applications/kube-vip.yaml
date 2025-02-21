@@ -52,11 +52,11 @@ spec:
               value: /etc/kubernetes/admin.conf
             - name: interface
               value: auto
-          volumes:
-            - name: kubeconfig
-              hostPath:
-                path: /var/snap/microk8s/current/credentials/client.config
-                type: File
-          volumeMounts:
-            - name: kubeconfig
-              mountPath: /etc/kubernetes/admin.conf
+#          volumes:
+#            - name: kubeconfig
+#              hostPath:
+#                path: /var/snap/microk8s/current/credentials/client.config
+#                type: File
+#          volumeMounts:
+#            - name: kubeconfig
+#              mountPath: /etc/kubernetes/admin.conf
