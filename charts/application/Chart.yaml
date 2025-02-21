@@ -1,5 +1,4 @@
 apiVersion: v2
-name: base
-description: Template chart for statefulset applications
+name: application
 type: application
 version: 0.0.0

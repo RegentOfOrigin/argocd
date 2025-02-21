@@ -6,10 +6,10 @@ dependencies:
   - alias: sabnzbd
     name: application
     version: x
-    repository: "file://../"
+    repository: file://../application
     condition: sabnzbd.enabled
   - alias: qbittorrent
     name: application
     version: x
-    repository: "file://../"
+    repository: file://../application
     condition: qbittorrent.enabled
