@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    automated: {}
+#    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
@@ -20,43 +20,24 @@ spec:
     targetRevision: HEAD
     helm:
       valuesObject:
+        global:
+          ingress:
+            whitelistSourceRange: 10.0.0.0/8
+          multimedia:
+            nfs:
+              path: /tank/multimedia
+          backups:
+            nfs:
+              path: /tank/multimedia
         qbittorrent:
           nodeSelector:
             lexrj.com/role: nas
-          volumes:
-            - name: multimedia
-              nfs:
-                path: /tank/multimedia
-                server: tartarus.node.internal
-          volumeMounts:
-            - name: multimedia
-              mountPath: /multimedia
           ingress:
             enabled: true
             hostname: "torrent.lexrj.com"
-            tls: true
-            annotations:
-              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
-              cert-manager.io/cluster-issuer: cloudflare
-          vpn:
-            enabled: false
         sabnzbd:
           nodeSelector:
             lexrj.com/role: nas
-          volumes:
-            - name: multimedia
-              nfs:
-                path: /tank/multimedia
-                server: tartarus.node.internal
-          volumeMounts:
-            - name: multimedia
-              mountPath: /multimedia
           ingress:
             enabled: true
             hostname: "usenet.lexrj.com"
-            tls: true
-            annotations:
-              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
-              cert-manager.io/cluster-issuer: cloudflare
-          vpn:
-            enabled: false

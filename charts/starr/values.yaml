@@ -1,34 +1,17 @@
-# This is to override the chart name.
 nameOverride: ""
-fullnameOverride: ""
-
-global:
-  domain: ""
-  serviceType: ClusterIP
-  ingress:
-    annotations: {}
-  multimedia:
-    nfs:
-      path: /multimedia
-      server: nfs-server.default.svc.cluster.local
-  backups:
-    nfs:
-      path: /backups
-      server: nfs-server.default.svc.cluster.local
 
 radarr:
-  statefulSet:
-    image:
-      repository: lscr.io/linuxserver/radarr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
-    livenessProbe:
-      httpGet:
-        path: /ping
-        port: http
+  image:
+    repository: lscr.io/linuxserver/radarr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -41,18 +24,17 @@ radarr:
     tls: false
 
 sonarr:
-  statefulSet:
-    image:
-      repository: lscr.io/linuxserver/sonarr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
-    livenessProbe:
-      httpGet:
-        path: /ping
-        port: http
+  image:
+    repository: lscr.io/linuxserver/sonarr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -65,18 +47,17 @@ sonarr:
     tls: false
 
 whisparr:
-  statefulSet:
-    image:
-      repository: ghcr.io/hotio/whisparr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
-    livenessProbe:
-      httpGet:
-        path: /ping
-        port: http
+  image:
+    repository: ghcr.io/hotio/whisparr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   multimedia:
     enabled: true
   service:
@@ -89,18 +70,17 @@ whisparr:
     tls: false
 
 prowlarr:
-  statefulSet:
-    image:
-      repository: lscr.io/linuxserver/prowlarr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
-    livenessProbe:
-      httpGet:
-        path: /ping
-        port: http
+  image:
+    repository: lscr.io/linuxserver/prowlarr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
   service:
     port: 9696
   serviceAccount:
@@ -111,14 +91,13 @@ prowlarr:
     tls: false
 
 bazarr:
-  statefulSet:
-    image:
-      repository: lscr.io/linuxserver/bazarr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
+  image:
+    repository: lscr.io/linuxserver/bazarr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
   multimedia:
     enabled: true
   service:
@@ -131,30 +110,28 @@ bazarr:
     tls: false
 
 recyclarr:
-  statefulSet:
-    image:
-      repository: recyclarr/recyclarr
-    securityContext:
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-    volumes:
-      - name: tmp
-        emptyDir: {}
-    volumeMounts:
-      - mountPath: /tmp
-        name: tmp
+  image:
+    repository: recyclarr/recyclarr
+  securityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+  volumes:
+    - name: tmp
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: /tmp
+      name: tmp
   service:
     enabled: false
 
 overseerr:
-  statefulSet:
-    image:
-      repository: lscr.io/linuxserver/overseerr
-    env:
-      - name: PUID
-        value: '1000'
-      - name: PGID
-        value: '1000'
+  image:
+    repository: lscr.io/linuxserver/overseerr
+  env:
+    - name: PUID
+      value: '1000'
+    - name: PGID
+      value: '1000'
   service:
     port: 5055
   serviceAccount:

@@ -1,6 +1,19 @@
+global:
+  ingress:
+    whitelistSourceRange: ""
+  multimedia:
+    nfs:
+      path: /tank/multimedia
+      server: nfs-server.default.svc
+  backups:
+    nfs:
+      path: /tank/backups
+      server: nfs-server.default.svc
+
+enabled: true
+
 # This is to override the chart name.
 nameOverride: ""
-fullnameOverride: ""
 
 multimedia:
   enabled: false
@@ -10,56 +23,60 @@ backups:
   enabled: false
   # volume: {}
 
-statefulSet:
-  # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-  image:
-    repository: ""
-    # This sets the pull policy for images.
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
-  # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  imagePullSecrets: []
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: ""
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
 
-  config:
-    storage: 2Gi
-    storageClassName: nfs
+# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
 
-  # This is for setting Kubernetes Annotations to a Pod.
-  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-  podAnnotations: {}
+config:
+  mountPath: /config
+  storage: 2Gi
+  storageClassName: nfs
 
-  # This is for setting Kubernetes Labels to a Pod.
-  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-  podLabels: {}
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
 
-  podSecurityContext: {}
-  securityContext: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
 
-  env: []
+podSecurityContext: {}
 
-  # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-  livenessProbe: {}
+securityContext: {}
+
+annotations: {}
+
+env: []
+
+# This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe: {}
+#  httpGet:
+#    path: /
+#    port: http
+
+readinessProbe: {}
   #  httpGet:
   #    path: /
   #    port: http
 
-  readinessProbe: {}
-    #  httpGet:
-    #    path: /
-    #    port: http
+# Additional volumes on the output StatefulSet definition.
+volumes: []
 
-  # Additional volumes on the output StatefulSet definition.
-  volumes: []
+# Additional volumeMounts on the output StatefulSet definition.
+volumeMounts: []
 
-  # Additional volumeMounts on the output StatefulSet definition.
-  volumeMounts: []
+nodeSelector: {}
 
-  nodeSelector: {}
+tolerations: []
 
-  tolerations: []
-
-  affinity: {}
+affinity: {}
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
@@ -86,12 +103,13 @@ ingress:
   enabled: false
   className: ""
   annotations: {}
+  whitelistSourceRange: ""
 
   # -- Defines which ingress controller will implement the resource
   ingressClassName: ""
 
   # -- server hostname
-  # @default -- `""` (defaults to global.domain)
+  # @default -- `""`
   hostname: ""
 
   # -- The path to the server

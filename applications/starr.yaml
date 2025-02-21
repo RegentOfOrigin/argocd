@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    automated: {}
+#    automated: {}
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
@@ -22,55 +22,39 @@ spec:
       valuesObject:
         global:
           ingress:
-            annotations:
-              nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
-              cert-manager.io/cluster-issuer: cloudflare
+            whitelistSourceRange: 10.0.0.0/8
           multimedia:
             nfs:
               path: /tank/multimedia
-              server: tartarus.node.internal
           backups:
             nfs:
               path: /tank/multimedia
-              server: tartarus.node.internal
         radarr:
-          enabled: true
           ingress:
             enabled: true
             hostname: "radarr.lexrj.com"
-            tls: true
         sonarr:
-          enabled: true
           ingress:
             enabled: true
             hostname: "sonarr.lexrj.com"
-            tls: true
         whisparr:
-          enabled: true
           statefulSet:
             image:
               tag: v3
           ingress:
             enabled: true
             hostname: "whisparr.lexrj.com"
-            tls: true
         prowlarr:
-          enabled: true
           ingress:
             enabled: true
             hostname: "prowlarr.lexrj.com"
-            tls: true
         bazarr:
           enabled: true
           ingress:
             enabled: true
             hostname: "bazarr.lexrj.com"
-            tls: true
-        recyclarr:
-          enabled: true
+        recyclarr: {}
         overseerr:
-          enabled: true
           ingress:
             enabled: true
             hostname: "overseerr.lexrj.com"
-            tls: true

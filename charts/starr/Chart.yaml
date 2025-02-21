@@ -8,28 +8,28 @@ dependencies:
   - alias: radarr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: sonarr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: whisparr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: prowlarr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: bazarr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: recyclarr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"
   - alias: overseerr
     name: application
     version: x
-    repository: "file://charts/"
+    repository: "file://../"

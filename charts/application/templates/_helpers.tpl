@@ -11,8 +11,8 @@ Common labels
 {{- define "application.labels" -}}
 helm.sh/chart: {{ .Chart.Name }}
 {{ include "application.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- with .Values.image.tag }}
+app.kubernetes.io/version: {{ . | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -33,5 +33,18 @@ Create the name of the service account to use
 {{- default (include "application.name" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "ingress.annotations" -}}
+{{- with .Values.ingress.hostname }}
+{{- if or (hasSuffix ".internal" .) (hasSuffix ".example.com" .) }}
+cert-manager.io/cluster-issuer: selfsigned
+{{- else }}
+cert-manager.io/cluster-issuer: cloudflare
+{{- end }}
+{{- end }}
+{{- with default .Values.global.ingress.whitelistSourceRange .Values.ingress.whitelistSourceRange }}
+nginx.ingress.kubernetes.io/whitelist-source-range: {{ . }}
 {{- end }}
 {{- end }}
