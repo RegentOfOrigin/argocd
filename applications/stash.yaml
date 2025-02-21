@@ -33,3 +33,5 @@ spec:
           ingress:
             enabled: true
             hostname: "stash.lexrj.com"
+          nodeSelector:
+            lexrj.com/role: nas
