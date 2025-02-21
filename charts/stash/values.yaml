@@ -1,0 +1,27 @@
+nameOverride: ""
+
+stash:
+  image:
+    repository: stashapp/stash
+  env:
+    - name: STASH_STASH
+      value: /multimedia/Porn/
+    - name: STASH_GENERATED
+      value: /root/.stash/
+    - name: STASH_METADATA
+      value: /root/.stash/
+    - name: STASH_CACHE
+      value: /root/.stash/
+  config:
+    mountPath: /root/.stash
+#  livenessProbe:
+#    httpGet:
+#      path: /ping
+#      port: http
+  multimedia:
+    enabled: true
+  service:
+    port: 9999
+  ingress:
+    enabled: false
+    hostname: "stash.example.com"

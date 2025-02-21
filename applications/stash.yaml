@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: downloads
+  name: starr
   annotations:
     argocd.argoproj.io/sync-wave: '10'
 spec:
@@ -13,10 +13,10 @@ spec:
       - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
-    namespace: downloads
+    namespace: starr
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: charts/downloads
+    path: charts/stash
     targetRevision: HEAD
     helm:
       valuesObject:
@@ -29,15 +29,7 @@ spec:
           backups:
             nfs:
               path: /tank/multimedia
-        qbittorrent:
-          nodeSelector:
-            lexrj.com/role: nas
+        stash:
           ingress:
             enabled: true
-            hostname: "torrent.lexrj.com"
-        sabnzbd:
-          nodeSelector:
-            lexrj.com/role: nas
-          ingress:
-            enabled: true
-            hostname: "usenet.lexrj.com"
+            hostname: "stash.lexrj.com"

@@ -21,7 +21,6 @@ radarr:
   ingress:
     enabled: false
     hostname: "radarr.example.com"
-    tls: false
 
 sonarr:
   image:
@@ -44,7 +43,6 @@ sonarr:
   ingress:
     enabled: false
     hostname: "sonarr.example.com"
-    tls: false
 
 whisparr:
   image:
@@ -67,7 +65,6 @@ whisparr:
   ingress:
     enabled: false
     hostname: "whisparr.example.com"
-    tls: false
 
 prowlarr:
   image:
@@ -88,7 +85,6 @@ prowlarr:
   ingress:
     enabled: false
     hostname: "prowlarr.example.com"
-    tls: false
 
 bazarr:
   image:
@@ -107,7 +103,6 @@ bazarr:
   ingress:
     enabled: false
     hostname: "bazarr.example.com"
-    tls: false
 
 recyclarr:
   image:
@@ -139,4 +134,3 @@ overseerr:
   ingress:
     enabled: false
     hostname: "overseerr.example.com"
-    tls: false
