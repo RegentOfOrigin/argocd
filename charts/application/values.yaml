@@ -4,11 +4,11 @@ global:
   multimedia:
     nfs:
       path: /tank/multimedia
-      server: nfs-server.default.svc
+      server: nfs-server.default.svc.cluster.local
   backups:
     nfs:
       path: /tank/backups
-      server: nfs-server.default.svc
+      server: nfs-server.default.svc.cluster.local
 
 enabled: true
 
