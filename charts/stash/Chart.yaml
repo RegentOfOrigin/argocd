@@ -9,4 +9,3 @@ dependencies:
     name: application
     version: x
     repository: file://../application
-]
