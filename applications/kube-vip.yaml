@@ -24,12 +24,16 @@ spec:
             value: '10.5.0.1'
           - name: env.vip_interface
             value: 'auto'
+          - name: env.vip_arp
+            value: 'true'
           - name: env.lb_enable
             value: 'true'
           - name: env.lb_port
             value: '6443'
           - name: env.vip_cidr
             value: '32'
+          - name: env.cp_enable
+            value: 'true'
           - name: env.svc_enable
             value: 'false'
           - name: env.svc_election
