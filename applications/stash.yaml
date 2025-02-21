@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: starr
+  name: stash
   annotations:
     argocd.argoproj.io/sync-wave: '10'
 spec:
@@ -13,7 +13,7 @@ spec:
       - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
-    namespace: starr
+    namespace: stash
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
     path: charts/stash
