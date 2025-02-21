@@ -7,10 +7,13 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
+      - FailOnSharedResource=true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
