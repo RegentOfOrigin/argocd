@@ -7,7 +7,7 @@ metadata:
     {{- include "application.labels" . | nindent 4 }}
   {{- with (include "ingress.annotations" .) }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    {{- . | nindent 4 }}
   {{- end }}
 spec:
   {{- with .Values.ingress.className }}
