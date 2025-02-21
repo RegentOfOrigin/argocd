@@ -38,11 +38,7 @@ Create the name of the service account to use
 
 {{- define "ingress.annotations" -}}
 {{- with .Values.ingress.hostname }}
-{{- if or (hasSuffix ".internal" .) (hasSuffix ".example.com" .) }}
-cert-manager.io/cluster-issuer: selfsigned
-{{- else }}
-cert-manager.io/cluster-issuer: cloudflare
-{{- end }}
+cert-manager.io/cluster-issuer: {{ if or (hasSuffix ".internal" .) (hasSuffix ".example.com" .) }}selfsigned{{ else }}cloudflare{{ end }}
 {{- end }}
 {{- with default .Values.global.ingress.whitelistSourceRange .Values.ingress.whitelistSourceRange }}
 nginx.ingress.kubernetes.io/whitelist-source-range: {{ . }}
