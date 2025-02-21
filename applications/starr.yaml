@@ -38,9 +38,8 @@ spec:
             enabled: true
             hostname: "sonarr.lexrj.com"
         whisparr:
-          statefulSet:
-            image:
-              tag: v3
+          image:
+            tag: v3
           ingress:
             enabled: true
             hostname: "whisparr.lexrj.com"
