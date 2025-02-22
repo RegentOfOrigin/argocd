@@ -60,3 +60,6 @@ spec:
 #          volumeMounts:
 #            - name: kubeconfig
 #              mountPath: /etc/kubernetes/admin.conf
+        tolerations:
+          - effect: "NoSchedule"
+            operator: "Exists"

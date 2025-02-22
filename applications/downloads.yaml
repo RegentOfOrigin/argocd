@@ -31,14 +31,22 @@ spec:
             nfs:
               path: /tank/multimedia
         qbittorrent:
-          nodeSelector:
-            lexrj.com/role: nas
           ingress:
             enabled: true
             hostname: "torrent.lexrj.com"
-        sabnzbd:
           nodeSelector:
-            lexrj.com/role: nas
+            node.lexrj.com/role: storage
+          tolerations:
+            - key: "node.lexrj.com/role"
+              operator: "Equal"
+              value: "storage"
+        sabnzbd:
           ingress:
             enabled: true
             hostname: "usenet.lexrj.com"
+          nodeSelector:
+            node.lexrj.com/role: storage
+          tolerations:
+            - key: "node.lexrj.com/role"
+              operator: "Equal"
+              value: "storage"

@@ -54,3 +54,6 @@ spec:
         controller:
           extraArgs:
             publish-status-address: '127.0.0.1'
+        tolerations:
+          - effect: "NoSchedule"
+            operator: "Exists"

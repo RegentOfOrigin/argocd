@@ -34,4 +34,8 @@ spec:
             enabled: true
             hostname: "stash.lexrj.com"
           nodeSelector:
-            lexrj.com/role: nas
+            node.lexrj.com/role: storage
+          tolerations:
+            - key: "node.lexrj.com/role"
+              operator: "Equal"
+              value: "storage"
