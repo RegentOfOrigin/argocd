@@ -42,7 +42,6 @@ spec:
           - name: server.ingressGrpc.tls
             value: 'true'
         valuesObject:
-          fullnameOverride: argocd
           configs:
             params:
               server.insecure: true
