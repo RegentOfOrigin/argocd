@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-vip
+  annotations:
+    argocd.argoproj.io/sync-wave: '-10'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-vip
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://kube-vip.github.io/helm-charts/
+    chart: kube-vip
+    targetRevision: 0.*
+    helm:
+      valuesObject:
+        config:
+          address: 10.5.0.1
+        env:
+          vip_interface: ''
+          vip_arp: 'true'
+          lb_enable: 'true'
+          lb_port: '6443'
+          vip_cidr: '32'
+          cp_enable: 'true'
+          svc_enable: 'false'
+          svc_election: 'false'
+          vip_leaderelection: 'true'
+        tolerations:
+          - effect: 'NoSchedule'
+            operator: 'Exists'

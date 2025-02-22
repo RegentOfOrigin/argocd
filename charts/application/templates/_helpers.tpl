@@ -25,17 +25,6 @@ app.kubernetes.io/name: {{ include "application.name" . }}
 app.kubernetes.io/instance: {{ include "application.name" . }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "application.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "application.name" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
 {{- define "ingress.annotations" -}}
 {{- with .Values.ingress.hostname }}
 cert-manager.io/cluster-issuer: {{ if or (hasSuffix ".internal" .) (hasSuffix ".example.com" .) }}selfsigned{{ else }}cloudflare{{ end }}

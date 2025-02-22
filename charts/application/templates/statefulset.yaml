@@ -43,7 +43,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "application.serviceAccountName" . }}
+      serviceAccountName: {{ include "application.name" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -56,14 +56,17 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.service.enabled }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          {{- with .Values.env }}
+          {{- end }}
+          {{- with concat .Values.env .Values.extraEnv }}
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- if .Values.service.enabled }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -71,6 +74,7 @@ spec:
           {{- with .Values.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- end }}
           volumeMounts:
             - name: config

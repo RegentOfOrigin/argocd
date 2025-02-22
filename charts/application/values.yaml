@@ -1,13 +1,13 @@
 global:
   ingress:
-    whitelistSourceRange: ""
+    whitelistSourceRange: ''
   multimedia:
     nfs:
       path: /tank/multimedia
       server: tartarus.node.internal
   backups:
     nfs:
-      path: /tank/backups
+      path: /tank/multimedia
       server: tartarus.node.internal
 
 enabled: true
@@ -53,18 +53,24 @@ securityContext: {}
 
 annotations: {}
 
-env: []
+env:
+  - name: PUID
+    value: '1000'
+  - name: PGID
+    value: '1000'
+
+extraEnv: []
 
 # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe: {}
-#  httpGet:
-#    path: /
-#    port: http
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
 
-readinessProbe: {}
-  #  httpGet:
-  #    path: /
-  #    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
 
 # Additional volumes on the output StatefulSet definition.
 volumes: []
@@ -82,14 +88,9 @@ terminationGracePeriodSeconds: ""
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
   # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set a name is generated using the fullname template
   name: ""
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
@@ -98,11 +99,11 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+  port: 8080
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations: {}
   whitelistSourceRange: ""
@@ -119,11 +120,6 @@ ingress:
 
   # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
   pathType: Prefix
-
-  # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
-  ## TLS certificate will be retrieved from a TLS secret `{{ .Chart.Name }}-server-tls`
-  ## You can create this secret via `certificate` or `certificateSecret` option
-  tls: false
 
   # -- The list of additional hostnames to be covered by ingress record
   # @default -- `[]`

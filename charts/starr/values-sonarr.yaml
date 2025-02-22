@@ -1,0 +1,13 @@
+sonarr:
+  image:
+    repository: lscr.io/linuxserver/sonarr
+  livenessProbe:
+    httpGet:
+      path: /ping
+  readinessProbe:
+    httpGet:
+      path: /ping
+  multimedia:
+    enabled: true
+  ingress:
+    hostname: sonarr.lexrj.com

@@ -1,0 +1,14 @@
+recyclarr:
+  image:
+    repository: recyclarr/recyclarr
+  securityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+  volumes:
+    - name: tmp
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: /tmp
+      name: tmp
+  service:
+    enabled: false

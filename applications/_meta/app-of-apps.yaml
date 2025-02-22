@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  annotations:
+    argocd.argoproj.io/sync-wave: '-100000'
+spec:
+  project: default
+  destination:
+    name: in-cluster
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=orphan
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+      - FailOnSharedResource=true
+      - RespectIgnoreDifferences=true
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: applications
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  ignoreDifferences:
+    - group: '*'
+      kind: Application
+      namespace: '*'
+      jsonPointers:
+        - /spec/syncPolicy/automated
+        - /metadata/annotations/argocd.argoproj.io~1refresh
+        - /operation

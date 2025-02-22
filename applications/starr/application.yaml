@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: starr
+  annotations:
+    argocd.argoproj.io/sync-wave: '100'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: starr
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: charts/starr
+    targetRevision: HEAD
+    helm: # AppSet
+      ignoreMissingValueFiles: true
+      valuesObject:
+        whisparr:
+          image:
+            tag: v3
+      valueFiles:
+        - values.yaml
+        - values-radarr.yaml
+        - values-sonarr.yaml
+        - values-whisparr.yaml
+        - values-prowlarr.yaml
+        - values-bazarr.yaml
+        - values-recyclarr.yaml
+        - values-overseerr.yaml

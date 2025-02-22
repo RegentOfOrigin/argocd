@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: plex-extras
+spec:
+  goTemplate: true
+  # goTemplateOptions:
+  #  - missingkey=error
+  syncPolicy:
+    applicationsSync: create-update
+  generators:
+    - list:
+        elements:
+          - name: kometa
+            namespace: plex
+          - name: tautulli
+            namespace: plex
+  template:
+    metadata:
+      name: '{{ .name }}'
+    spec:
+      project: default
+      destination:
+        name: in-cluster
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        # automated:
+        #   prune: true
+        #   selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+      source:
+        repoURL: https://github.com/RegentOfOrigin/argocd.git
+        path: charts/application
+        targetRevision: HEAD
+        helm: # AppSet
+          ignoreMissingValueFiles: true
+          valuesObject:
+            nameOverride: '{{ .name }}'
+          valueFiles:
+            - values.yaml
+            - values-{{ .name }}.yaml

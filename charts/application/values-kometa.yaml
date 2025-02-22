@@ -1,0 +1,4 @@
+image:
+  repository: lscr.io/linuxserver/kometa
+service:
+  enabled: false

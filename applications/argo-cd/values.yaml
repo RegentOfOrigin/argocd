@@ -1,0 +1,23 @@
+fullnameOverride: argocd
+global:
+  domain: argocd.lexrj.com
+configs:
+  params:
+    server.insecure: true
+  cm:
+    exec.enabled: true
+    statusbadge.enabled: true
+redis-ha:
+  enabled: false
+server:
+  certificate:
+    enabled: true
+    issuer:
+      kind: ClusterIssuer
+      name: cloudflare
+  ingress:
+    enabled: true
+    tls: true
+  ingressGrpc:
+    enabled: true
+    tls: true

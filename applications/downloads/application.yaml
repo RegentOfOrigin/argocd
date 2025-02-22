@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: downloads
+  annotations:
+    argocd.argoproj.io/sync-wave: '10'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: downloads
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: charts/downloads
+    targetRevision: HEAD
+    helm: # Turn into an ApplicationSet
+      ignoreMissingValueFiles: true
+      valuesObject:
+        global:
+          ingress:
+            whitelistSourceRange: 10.0.0.0/8
+          multimedia:
+            hostPath:
+              path: /tank/multimedia
+              type: Directory
+      valueFiles:
+        - values.yaml
+        - values-sabnzbd.yaml
+        - values-qbittorrent.yaml

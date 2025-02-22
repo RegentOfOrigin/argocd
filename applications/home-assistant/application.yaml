@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  annotations:
+    link.argocd.argoproj.io/application: 'https://homeassistant.lexrj.com'
+    argocd.argoproj.io/sync-wave: '10'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: home-assistant
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: manifests/home-assistant
+    targetRevision: HEAD

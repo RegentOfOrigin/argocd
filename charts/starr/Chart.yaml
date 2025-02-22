@@ -7,29 +7,29 @@ version: 0.0.0
 dependencies:
   - alias: radarr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: sonarr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: whisparr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: prowlarr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: bazarr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: recyclarr
     name: application
-    version: x
+    version: '*'
     repository: file://../application
   - alias: overseerr
     name: application
-    version: x
+    version: '*'
     repository: file://../application

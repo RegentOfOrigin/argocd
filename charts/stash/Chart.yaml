@@ -7,5 +7,5 @@ version: 0.0.0
 dependencies:
   - alias: stash
     name: application
-    version: x
+    version: '*'
     repository: file://../application

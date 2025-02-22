@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stash
+  annotations:
+    argocd.argoproj.io/sync-wave: '10'
+    link.argocd.argoproj.io/application: 'https://stash.lexrj.com'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stash
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: charts/stash
+    targetRevision: HEAD
+    helm:
+      ignoreMissingValueFiles: true
+      valueFiles:
+        - values.yaml
+        - values-stash.yaml

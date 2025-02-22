@@ -1,0 +1,13 @@
+whisparr:
+  image:
+    repository: ghcr.io/hotio/whisparr
+  livenessProbe:
+    httpGet:
+      path: /ping
+  readinessProbe:
+    httpGet:
+      path: /ping
+  multimedia:
+    enabled: true
+  ingress:
+    hostname: whisparr.lexrj.com

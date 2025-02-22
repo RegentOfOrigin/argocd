@@ -3,35 +3,32 @@ kind: Application
 metadata:
   name: csi-driver-nfs
   annotations:
-    argocd.argoproj.io/sync-wave: '0'
+    argocd.argoproj.io/sync-wave: '-1000'
 spec:
   project: default
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
   destination:
-    server: https://kubernetes.default.svc
+    server: 'https://kubernetes.default.svc'
     namespace: kube-system
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
   source:
     repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts/
     chart: csi-driver-nfs
-    targetRevision: x
+    targetRevision: '4.*'
     helm:
-      parameters:
-        - name: kubeletDir
-          value: /var/snap/microk8s/common/var/lib/kubelet
-        - name: controller.defaultOnDeletePolicy
-          value: 'archive'
-        - name: storageClass.create
-          value: 'true'
-        - name: feature.enableFSGroupPolicy
-          value: 'true'
-        #- name: feature.enableInlineVolume
-        #  value: 'true'
       valuesObject:
+        kubeletDir: /var/snap/microk8s/common/var/lib/kubelet
+        controller:
+          defaultOnDeletePolicy: archive
+        feature:
+          enableFSGroupPolicy: true
+          enableInlineVolume: true
         storageClass:
+          create: true
           name: nfs
           annotations:
             storageclass.kubernetes.io/is-default-class: 'true'
@@ -39,7 +36,7 @@ spec:
             server: nfs-server.default.svc.cluster.local
             share: /tank/kubernetes
             subDir: '${pvc.metadata.namespace}/${pvc.metadata.name}'
-            onDelete: 'archive'
+            onDelete: archive
             # kubectl create -n kube-system secret generic mount-options --from-literal mountOptions='nfsvers=4.2,hard'
             #csi.storage.k8s.io/provisioner-secret-name: 'mount-options'
             #csi.storage.k8s.io/provisioner-secret-namespace: 'default'

@@ -1,8 +1,9 @@
-nameOverride: ""
-
 stash:
   image:
     repository: stashapp/stash
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
   env:
     - name: STASH_STASH
       value: /multimedia/Porn/
@@ -14,14 +15,15 @@ stash:
       value: /root/.stash/
   config:
     mountPath: /root/.stash
-#  livenessProbe:
-#    httpGet:
-#      path: /ping
-#      port: http
   multimedia:
     enabled: true
+  ingress:
+    hostname: stash.lexrj.com
+  nodeSelector:
+    node.lexrj.com/role: 'storage'
   service:
     port: 9999
-  ingress:
-    enabled: false
-    hostname: "stash.example.com"
+  tolerations:
+    - key: 'node.lexrj.com/role'
+      operator: 'Equal'
+      value: 'storage'

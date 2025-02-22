@@ -6,18 +6,6 @@ qbittorrent:
       value: '1000'
     - name: PGID
       value: '1000'
-  podSecurityContext: {}
-  securityContext: {}
-  service:
-    port: 8080
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
   multimedia:
     enabled: true
 
@@ -29,17 +17,5 @@ sabnzbd:
       value: '1000'
     - name: PGID
       value: '1000'
-  podSecurityContext: {}
-  securityContext: {}
-  service:
-    port: 8080
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
   multimedia:
     enabled: true

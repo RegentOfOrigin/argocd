@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  annotations:
+    argocd.argoproj.io/sync-wave: '-10'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - ApplyOutOfSyncOnly=true
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 7.*
+      helm:
+        valueFiles:
+          - $values/applications/argo-cd/values.yaml
+    - repoURL: https://github.com/RegentOfOrigin/argocd.git
+      targetRevision: HEAD
+      ref: values

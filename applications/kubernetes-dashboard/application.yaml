@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-dashboard
+  annotations:
+    argocd.argoproj.io/sync-wave: '0'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dashboard
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://kubernetes.github.io/dashboard/
+    chart: kubernetes-dashboard
+    targetRevision: 7.*
+    helm:
+      valuesObject:
+        app:
+          ingress:
+            enabled: true
+            useDefaultIngressClass: true
+            hosts:
+              - dashboard.kubernetes.lexrj.com
+            issuer:
+              scope: cluster
+  ignoreDifferences:
+    - group: '*'
+      kind: Deployment
+      namespace: '*'
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum/config
+    - group: '*'
+      kind: Secret
+      namespace: '*'
+      jsonPointers:
+        - /data/private.key

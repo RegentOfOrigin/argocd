@@ -4,34 +4,33 @@ metadata:
   name: plex-media-server
   annotations:
     argocd.argoproj.io/sync-wave: '10'
+    link.argocd.argoproj.io/application: 'https://plex.lexrj.com'
 spec:
   project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: plex
   syncPolicy:
-#    automated: {}
+    # automated:
+    #   prune: true
+    #   selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: plex
   source:
     repoURL: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
     chart: plex-media-server
-    targetRevision: x
+    targetRevision: 0.*
     helm:
-      parameters:
-        - name: ingress.enabled
-          value: 'true'
-        - name: ingress.ingressClassName
-          value: 'nginx'
-        - name: ingress.url
-          value: 'plex.lexrj.com'
-        - name: serviceAccount.automountServiceAccountToken
-          value: 'true'
       valuesObject:
         ingress:
+          enabled: true
+          url: plex.lexrj.com
+          ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
+        serviceAccount:
+          automountServiceAccountToken: true
         extraVolumes:
           - name: dev-dri
             hostPath:
@@ -47,8 +46,8 @@ spec:
           - name: multimedia
             mountPath: /multimedia
         nodeSelector:
-          node.lexrj.com/role: storage
+          node.lexrj.com/role: 'storage'
         tolerations:
-          - key: "node.lexrj.com/role"
-            operator: "Equal"
-            value: "storage"
+          - key: 'node.lexrj.com/role'
+            operator: 'Equal'
+            value: 'storage'

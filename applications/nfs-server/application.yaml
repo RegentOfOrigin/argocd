@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: home-assistant
+  name: nfs-server
   annotations:
-    argocd.argoproj.io/sync-wave: '10'
+    argocd.argoproj.io/sync-wave: '-10000'
 spec:
   project: default
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
-    namespace: home-assistant
+    namespace: default
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: manifests/home-assistant
     targetRevision: HEAD
+    path: manifests/nfs

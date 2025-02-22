@@ -3,32 +3,33 @@ kind: Application
 metadata:
   name: cert-manager
   annotations:
-    argocd.argoproj.io/sync-wave: '0'
+    argocd.argoproj.io/sync-wave: '-1000'
 spec:
   project: default
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   source:
     repoURL: https://charts.jetstack.io/
     chart: cert-manager
-    targetRevision: x
+    targetRevision: 1.*
     helm:
-      parameters:
-        - name: replicaCount
-          value: '2'
-        - name: cainjector.replicaCount
-          value: '2'
-        - name: installCRDs
-          value: 'true'
-        - name: webhook.replicaCount
-          value: '2'
       valuesObject:
+        replicaCount: 2
+        cainjector:
+          replicaCount: 2
+        webhook:
+          replicaCount: 2
+        crds:
+          enabled: true
+          keep: true
         extraObjects:
           - |
             apiVersion: cert-manager.io/v1

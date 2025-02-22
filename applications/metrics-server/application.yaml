@@ -6,30 +6,30 @@ metadata:
     argocd.argoproj.io/sync-wave: '0'
 spec:
   project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   ignoreDifferences:
     - group: '*'
       kind: '*'
       name: v1beta1.metrics.k8s.io
       jsonPointers:
         - /spec/insecureSkipTLSVerify
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: metrics-server
   source:
     repoURL: https://kubernetes-sigs.github.io/metrics-server/
     chart: metrics-server
-    targetRevision: x
+    targetRevision: 3.*
     helm:
-      parameters:
-        - name: apiService.insecureSkipTLSVerify
-          value: 'false'
-        - name: replicas
-          value: '2'
       valuesObject:
+        replicas: 2
         tls:
           type: cert-manager
+        apiService:
+          insecureSkipTLSVerify: false
