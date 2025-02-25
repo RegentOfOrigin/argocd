@@ -5,24 +5,26 @@ stash:
     runAsUser: 1000
     runAsGroup: 1000
   env:
-    - name: STASH_STASH
-      value: /multimedia/Porn/
+    - name: USER
+      value: stash
+    - name: STASH_PORT
+      value: '8080'
+    - name: STASH_CONFIG_FILE
+      value: /config/config.yml
     - name: STASH_GENERATED
-      value: /root/.stash/
+      value: /config/generated/
     - name: STASH_METADATA
-      value: /root/.stash/
+      value: /config/metadata/
     - name: STASH_CACHE
-      value: /root/.stash/
-  config:
-    mountPath: /root/.stash
+      value: /config/cache/
+    - name: STASH_STASH
+      value: /multimedia/Whisparr/
   multimedia:
     enabled: true
   ingress:
     hostname: stash.lexrj.com
   nodeSelector:
     node.lexrj.com/role: 'storage'
-  service:
-    port: 9999
   tolerations:
     - key: 'node.lexrj.com/role'
       operator: 'Equal'
