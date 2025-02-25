@@ -1,6 +1,5 @@
 image:
-  repository: lscr.io/linuxserver/tautulli
+  registry: lscr.io
+  repository: linuxserver/tautulli
 multimedia:
-  enabled: true
-ingress:
-  hostname: tautulli.lexrj.com
+  enabled: false

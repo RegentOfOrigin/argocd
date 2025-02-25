@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "application.name" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "application.labels" . | nindent 4 }}
   {{- with (include "ingress.annotations" .) }}
@@ -14,7 +14,7 @@ spec:
   ingressClassName: {{ tpl . $ }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.hostname }}
+    - host: {{ tpl (.Values.ingress.hostname) $ }}
       http:
         paths:
         {{- with .Values.ingress.extraPaths }}
@@ -24,7 +24,7 @@ spec:
             pathType: {{ .Values.ingress.pathType }}
             backend:
               service:
-                name: {{ include "application.name" $ }}
+                name: {{ .Release.Name }}
                 port:
                   number: {{ .Values.service.port }}
     {{- range .Values.ingress.extraHosts }}
@@ -35,7 +35,7 @@ spec:
             pathType: {{ .pathType | default $.Values.ingress.pathType }}
             backend:
               service:
-                name: {{ include "application.name" $ }}
+                name: {{ $.Release.Name }}
                 port:
                   name: http
     {{- end }}
@@ -50,5 +50,5 @@ spec:
         - {{ tpl .name $ }}
         {{- end }}
       {{- end }}
-      secretName: {{ include "application.name" . }}-server-tls
+      secretName: {{ .Release.Name }}-server-tls
   {{- end }}

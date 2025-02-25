@@ -1,0 +1,11 @@
+image:
+  registry: ghcr.io
+  repository: hotio/qbittorrent
+multimedia:
+  type: hostPath
+nodeSelector:
+  node.lexrj.com/role: storage
+tolerations:
+  - key: node.lexrj.com/role
+    operator: Equal
+    value: storage

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "application.name" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "application.labels" . | nindent 4 }}
   {{- with .Values.annotations }}
@@ -14,13 +14,10 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.config.storageClassName }}
-        storageClassName: {{ .Values.config.storageClassName }}
-      {{- end }}
         resources:
           requests:
             storage: {{ .Values.config.storage }}
-  serviceName: {{ include "application.name" . }}
+  serviceName: {{ .Release.Name }}
   selector:
     matchLabels:
       {{- include "application.selectorLabels" . | nindent 6 }}
@@ -39,22 +36,18 @@ spec:
       {{- with .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "application.name" . }}
+      serviceAccountName: {{ .Release.Name }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: main
-          {{- with .Values.securityContext }}
+          {{- with include "application.securityContext" . }}
           securityContext:
-            {{- toYaml . | nindent 12 }}
+            {{- . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          image: "{{ include "application.image.registry" . | nospace }}{{ .Values.image.repository }}{{ include "application.image.tag" . | nospace }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.service.enabled }}
           ports:
@@ -62,10 +55,22 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           {{- end }}
-          {{- with concat .Values.env .Values.extraEnv }}
           env:
+            {{- if or (hasPrefix "linuxserver/" .Values.image.repository) (hasPrefix "hotio/" .Values.image.repository) }}
+            {{- with .Values.user }}
+            - name: USER
+              value: "{{ $.Release.Name }}"
+            - name: PUID
+              value: "{{ . }}"
+            {{- end }}
+            {{- with .Values.group }}
+            - name: PGID
+              value: "{{ . }}"
+            {{- end }}
+            {{- end }}
+            {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- end }}
           {{- if .Values.service.enabled }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
@@ -92,19 +97,33 @@ spec:
             {{- end }}
       {{- if or .Values.multimedia.enabled .Values.backups.enabled .Values.volumes }}
       volumes:
-        {{- if .Values.multimedia.enabled }}
+        {{- with .Values.multimedia }}
+        {{- if .enabled}}
         - name: multimedia
+          {{- if eq .type "nfs" }}
           nfs:
-            {{- with default .Values.global.multimedia.nfs .Values.multimedia.nfs }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            path: {{ .path }}
+            server: {{ .server }}
+          {{- else if eq .type "hostPath" }}
+          hostPath:
+            path: {{ .path }}
+            type: Directory
+          {{- end }}
         {{- end }}
-        {{- if .Values.backups.enabled }}
+        {{- end }}
+        {{- with .Values.backups }}
+        {{- if .enabled}}
         - name: backups
+          {{- if eq .type "nfs" }}
           nfs:
-            {{- with default .Values.global.backups.nfs .Values.backups.nfs }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            path: {{ .path }}
+            server: {{ .server }}
+          {{- else if eq .type "hostPath" }}
+          hostPath:
+            path: {{ .path }}
+            type: Directory
+          {{- end }}
+        {{- end }}
         {{- end }}
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}

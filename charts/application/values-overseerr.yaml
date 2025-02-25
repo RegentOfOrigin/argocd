@@ -1,0 +1,7 @@
+image:
+  registry: lscr.io
+  repository: linuxserver/overseerr
+service:
+  port: 5055
+multimedia:
+  enabled: false

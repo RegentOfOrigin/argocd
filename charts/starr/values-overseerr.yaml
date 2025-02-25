@@ -1,7 +1,0 @@
-overseerr:
-  image:
-    repository: lscr.io/linuxserver/overseerr
-  service:
-    port: 5055
-  ingress:
-    hostname: overseerr.lexrj.com

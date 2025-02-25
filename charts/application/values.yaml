@@ -1,38 +1,26 @@
-global:
-  ingress:
-    whitelistSourceRange: ''
-  multimedia:
-    nfs:
-      path: /tank/multimedia
-      server: tartarus.node.internal
-  backups:
-    nfs:
-      path: /tank/multimedia
-      server: tartarus.node.internal
-
-enabled: true
-
-# This is to override the chart name.
-nameOverride: ""
+user: 1000
+group: 1000
 
 multimedia:
-  enabled: false
-  # volume: {}
+  enabled: true
+  type: nfs
+  path: /tank/multimedia
+  server: tartarus.node.internal
 
 backups:
   enabled: false
-  # volume: {}
+  type: nfs
+  path: /tank/backups
+  server: tartarus.node.internal
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ""
+  registry: ''
+  repository: ''
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: []
+  tag: ''
 
 config:
   mountPath: /config
@@ -53,13 +41,7 @@ securityContext: {}
 
 annotations: {}
 
-env:
-  - name: PUID
-    value: '1000'
-  - name: PGID
-    value: '1000'
-
-extraEnv: []
+env: []
 
 # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
@@ -84,14 +66,14 @@ tolerations: []
 
 affinity: {}
 
-terminationGracePeriodSeconds: ""
+terminationGracePeriodSeconds: ''
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
   # Annotations to add to the service account
   annotations: {}
   # If not set a name is generated using the fullname template
-  name: ""
+  name: ''
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
@@ -104,16 +86,16 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: ""
+  className: ''
   annotations: {}
-  whitelistSourceRange: ""
+  whitelistSourceRange: ''
 
   # -- Defines which ingress controller will implement the resource
-  ingressClassName: ""
+  ingressClassName: ''
 
   # -- server hostname
-  # @default -- `""`
-  hostname: ""
+  # @default -- `''`
+  hostname: '{{.Release.Name}}.lexrj.com'
 
   # -- The path to the server
   path: /

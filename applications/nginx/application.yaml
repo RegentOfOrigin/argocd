@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   destination:
-    server: https://kubernetes.default.svc
+    name: in-cluster
     namespace: nginx
   syncPolicy:
     # automated:

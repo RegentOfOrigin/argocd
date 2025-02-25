@@ -7,12 +7,12 @@ metadata:
 spec:
   project: default
   destination:
-    server: https://kubernetes.default.svc
+    name: in-cluster
     namespace: kube-system
   syncPolicy:
-    # automated:
-    #   prune: true
-    #   selfHeal: true
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true

@@ -1,20 +1,48 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: plex-extras
+  name: docker-apps
 spec:
   goTemplate: true
-  # goTemplateOptions:
-  #  - missingkey=error
+  goTemplateOptions:
+    - missingkey=error
   syncPolicy:
     applicationsSync: create-update
   generators:
     - list:
         elements:
           - name: kometa
-            namespace: plex
           - name: tautulli
-            namespace: plex
+        template:
+          metadata: {}
+          spec:
+            project: default
+            destination:
+              namespace: plex
+    - list:
+        elements:
+          - name: stash
+        template:
+          metadata: {}
+          spec:
+            project: default
+            destination:
+              namespace: stash
+    - list:
+        elements:
+          - name: radarr
+          - name: sonarr
+          - name: whisparr
+          - name: prowlarr
+          - name: bazarr
+          - name: recyclarr
+          - name: overseerr
+        template:
+          metadata: {}
+          spec:
+            project: default
+            destination:
+              namespace: starr
   template:
     metadata:
       name: '{{ .name }}'
@@ -22,7 +50,6 @@ spec:
       project: default
       destination:
         name: in-cluster
-        namespace: '{{ .namespace }}'
       syncPolicy:
         # automated:
         #   prune: true
@@ -34,7 +61,7 @@ spec:
         repoURL: https://github.com/RegentOfOrigin/argocd.git
         path: charts/application
         targetRevision: HEAD
-        helm: # AppSet
+        helm:
           ignoreMissingValueFiles: true
           valuesObject:
             nameOverride: '{{ .name }}'

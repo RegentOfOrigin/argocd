@@ -1,0 +1,23 @@
+image:
+  repository: stashapp/stash
+env:
+  - name: USER
+    value: stash
+  - name: STASH_PORT
+    value: '8080'
+  - name: STASH_CONFIG_FILE
+    value: /config/config.yml
+  - name: STASH_GENERATED
+    value: /config/generated/
+  - name: STASH_METADATA
+    value: /config/metadata/
+  - name: STASH_CACHE
+    value: /config/cache/
+  - name: STASH_STASH
+    value: /multimedia/Whisparr/
+nodeSelector:
+  node.lexrj.com/role: storage
+tolerations:
+  - key: node.lexrj.com/role
+    operator: Equal
+    value: storage

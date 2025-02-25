@@ -1,4 +1,5 @@
 image:
-  repository: lscr.io/linuxserver/kometa
+  registry: lscr.io
+  repository: linuxserver/kometa
 service:
   enabled: false

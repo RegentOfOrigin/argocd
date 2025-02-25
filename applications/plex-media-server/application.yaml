@@ -8,12 +8,12 @@ metadata:
 spec:
   project: default
   destination:
-    server: 'https://kubernetes.default.svc'
+    name: in-cluster
     namespace: plex
   syncPolicy:
-    # automated:
-    #   prune: true
-    #   selfHeal: true
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true

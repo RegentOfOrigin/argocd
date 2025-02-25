@@ -1,0 +1,10 @@
+image:
+  registry: ghcr.io
+  repository: hotio/whisparr
+  tag: v3
+livenessProbe:
+  httpGet:
+    path: /ping
+readinessProbe:
+  httpGet:
+    path: /ping

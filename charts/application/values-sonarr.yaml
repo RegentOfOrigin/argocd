@@ -1,0 +1,9 @@
+image:
+  registry: lscr.io
+  repository: linuxserver/sonarr
+livenessProbe:
+  httpGet:
+    path: /ping
+readinessProbe:
+  httpGet:
+    path: /ping

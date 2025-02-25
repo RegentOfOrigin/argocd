@@ -7,15 +7,16 @@ metadata:
 spec:
   project: default
   destination:
-    server: https://kubernetes.default.svc
+    name: in-cluster
     namespace: dashboard
   syncPolicy:
-    # automated:
-    #   prune: true
-    #   selfHeal: true
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
+      - RespectIgnoreDifferences=true
   source:
     repoURL: https://kubernetes.github.io/dashboard/
     chart: kubernetes-dashboard
@@ -33,11 +34,10 @@ spec:
   ignoreDifferences:
     - group: '*'
       kind: Deployment
-      namespace: '*'
       jsonPointers:
-        - /spec/template/metadata/annotations/checksum/config
+        - /spec/template/metadata/annotations/checksum~1config
     - group: '*'
       kind: Secret
-      namespace: '*'
+      name: kubernetes-dashboard-csrf
       jsonPointers:
         - /data/private.key

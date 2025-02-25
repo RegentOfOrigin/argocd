@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   destination:
-    server: https://kubernetes.default.svc
+    name: in-cluster
     namespace: kube-vip
   syncPolicy:
     # automated:
@@ -26,14 +26,21 @@ spec:
           address: 10.5.0.1
         env:
           vip_interface: ''
-          vip_arp: 'true'
+          vip_arp: 'false'  # true
+          bgp_enable: 'true'
           lb_enable: 'true'
           lb_port: '6443'
           vip_cidr: '32'
           cp_enable: 'true'
           svc_enable: 'false'
           svc_election: 'false'
-          vip_leaderelection: 'true'
+          vip_leaderelection: 'false'  # true
+          bgp_routerid: 10.0.0.1
+          bgp_as: "65000"
+          bgp_peeraddress: ""
+          bgp_peerpass: ""
+          bgp_peeras: "65000"
+          bgp_peers: 10.0.0.1:65000::false
         tolerations:
           - effect: 'NoSchedule'
             operator: 'Exists'
