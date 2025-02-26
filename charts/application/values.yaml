@@ -44,15 +44,9 @@ annotations: {}
 env: []
 
 # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
+livenessProbe: {}
 
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
+readinessProbe: {}
 
 # Additional volumes on the output StatefulSet definition.
 volumes: []

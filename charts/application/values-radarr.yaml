@@ -1,9 +1,3 @@
 image:
   registry: lscr.io
   repository: linuxserver/radarr
-livenessProbe:
-  httpGet:
-    path: /ping
-readinessProbe:
-  httpGet:
-    path: /ping

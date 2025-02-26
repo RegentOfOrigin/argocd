@@ -1,11 +1,5 @@
 image:
   registry: lscr.io
   repository: linuxserver/prowlarr
-livenessProbe:
-  httpGet:
-    path: /ping
-readinessProbe:
-  httpGet:
-    path: /ping
 multimedia:
   enabled: false
