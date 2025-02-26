@@ -30,6 +30,16 @@ spec:
               namespace: stash
     - list:
         elements:
+          - name: qbittorrent
+          - name: sabnzbd
+        template:
+          metadata: {}
+          spec:
+            project: default
+            destination:
+              namespace: downloads
+    - list:
+        elements:
           - name: radarr
           - name: sonarr
           - name: whisparr
