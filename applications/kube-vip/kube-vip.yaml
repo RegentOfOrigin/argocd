@@ -2,8 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kube-vip
-  annotations:
-    argocd.argoproj.io/sync-wave: '-10'
 spec:
   project: default
   destination:
@@ -25,22 +23,16 @@ spec:
         config:
           address: 10.5.0.1
         env:
-          vip_interface: ''
-          vip_arp: 'false'  # true
+          vip_arp: 'false'
           bgp_enable: 'true'
-          lb_enable: 'true'
-          lb_port: '6443'
-          vip_cidr: '32'
           cp_enable: 'true'
-          svc_enable: 'false'
-          svc_election: 'false'
-          vip_leaderelection: 'false'  # true
-          bgp_routerid: 10.0.0.1
           bgp_as: "65000"
-          bgp_peeraddress: ""
-          bgp_peerpass: ""
           bgp_peeras: "65000"
-          bgp_peers: 10.0.0.1:65000::false
+          bgp_peers: 10.0.0.1:65000::false,10.5.1.2:65000::false,10.5.2.1:65000::false,10.5.3.4:65000::false
+        envValueFrom:
+          bgp_routerid:
+            fieldRef:
+              fieldPath: status.podIP
         tolerations:
           - effect: 'NoSchedule'
             operator: 'Exists'
