@@ -13,7 +13,6 @@ spec:
         elements:
           - name: kometa
           - name: tautulli
-          - name: imagemaid
         template:
           metadata: {}
           spec:

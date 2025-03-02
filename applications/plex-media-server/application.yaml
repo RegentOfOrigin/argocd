@@ -18,9 +18,10 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    repoURL: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
-    chart: plex-media-server
-    targetRevision: 0.*
+    repoURL: https://github.com/RegentOfOrigin/pms-docker.git
+    path: charts/plex-media-server
+#    chart: plex-media-server
+    targetRevision: init-containers
     helm:
       valuesObject:
         ingress:
@@ -29,7 +30,6 @@ spec:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
-
         extraEnv:
           ADVERTISE_IP: https://plex.lexrj.com:443
         serviceAccount:
@@ -43,6 +43,38 @@ spec:
             hostPath:
               path: /tank/multimedia
               type: Directory
+        extraInitContainers:
+          - name: imagemaid
+            image: kometateam/imagemaid
+            restartPolicy: Always
+            env:
+              - name: PLEX_PATH
+                value: /config
+              - name: MODE
+                value: remove
+              - name: SCHEDULE
+                value: 05:00|weekly(monday)
+              - name: PLEX_URL
+                value: http://localhost:32400
+              - name: TIMEOUT
+                value: '600'
+              - name: SLEEP
+                value: '60'
+              - name: PHOTO_TRANSCODER
+                value: 'True'
+              - name: CLEAN_BUNDLES
+                value: 'True'
+              - name: OPTIMIZE_DB
+                value: 'True'
+              - name: PLEX_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: plex-token
+                    key: token
+            volumeMounts:
+              - name: pms-config
+                mountPath: /config
+                subPath: 'Library/Application Support/Plex Media Server/'
         extraVolumeMounts:
           - name: dev-dri
             mountPath: /dev/dri
