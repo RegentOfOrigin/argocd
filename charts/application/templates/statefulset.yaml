@@ -68,8 +68,14 @@ spec:
               value: "{{ . }}"
             {{- end }}
             {{- end }}
-            {{- with .Values.env }}
-            {{- toYaml . | nindent 12 }}
+            {{- range $name, $value := .Values.env }}
+            - name: {{ $name | quote }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.envFrom }}
+            - name: {{ $name | quote }}
+              valueFrom:
+                 {{- $value | toYaml | nindent 16 }}
             {{- end }}
           {{- if .Values.service.enabled }}
           {{- with .Values.livenessProbe }}

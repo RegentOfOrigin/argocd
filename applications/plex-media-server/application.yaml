@@ -29,6 +29,7 @@ spec:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
+
         extraEnv:
           ADVERTISE_IP: https://plex.lexrj.com:443
         serviceAccount:

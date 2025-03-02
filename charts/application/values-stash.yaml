@@ -1,20 +1,13 @@
 image:
   repository: stashapp/stash
 env:
-  - name: USER
-    value: stash
-  - name: STASH_PORT
-    value: '8080'
-  - name: STASH_CONFIG_FILE
-    value: /config/config.yml
-  - name: STASH_GENERATED
-    value: /config/generated/
-  - name: STASH_METADATA
-    value: /config/metadata/
-  - name: STASH_CACHE
-    value: /config/cache/
-  - name: STASH_STASH
-    value: /multimedia/Whisparr/
+  USER: stash
+  STASH_PORT: '8080'
+  STASH_CONFIG_FILE: /config/config.yml
+  STASH_GENERATED: /config/generated/
+  STASH_METADATA: /config/metadata/
+  STASH_CACHE: /config/cache/
+  STASH_STASH: /multimedia/Whisparr/
 nodeSelector:
   node.lexrj.com/role: storage
 tolerations:

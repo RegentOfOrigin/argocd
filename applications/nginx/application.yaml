@@ -32,15 +32,9 @@ spec:
           admissionWebhooks:
             certManager:
               enabled: true
-#          hostPort:
-#            enabled: true
           ingressClassResource:
             default: true
           kind: DaemonSet
-#          publishService:
-#            enabled: false
-#          extraArgs:
-#            publish-status-address: 127.0.0.1
           tolerations:
             - effect: 'NoSchedule'
               operator: 'Exists'
