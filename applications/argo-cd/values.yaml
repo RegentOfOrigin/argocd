@@ -17,6 +17,8 @@ server:
       name: cloudflare
   ingress:
     enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
     tls: true
   ingressGrpc:
     enabled: true
