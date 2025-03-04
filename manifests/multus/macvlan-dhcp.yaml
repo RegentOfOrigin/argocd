@@ -3,4 +3,4 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: macvlan-dhcp
 spec:
-  config: '{"type": "macvlan", "mode": "bridge", "ipam": {"type": "dhcp", "daemonSocketPath": "/var/snap/microk8s/current/var/run/cni/dhcp.sock"}}'
+  config: '{"cniVersion": "0.3.1", "type": "macvlan", "mode": "bridge", "ipam": {"type": "dhcp"}}'

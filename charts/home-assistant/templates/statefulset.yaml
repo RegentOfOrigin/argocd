@@ -79,17 +79,24 @@ spec:
           volumeMounts:
             - name: config
               mountPath: {{ .Values.config.mountPath }}
-{{/*            - name: config-yaml*/}}
-{{/*              mountPath: {{ .Values.config.mountPath }}*/}}
-{{/*              readOnly: true*/}}
+            - name: configuration
+              mountPath: {{ .Values.config.mountPath }}/configuration.yaml
+              subPath: configuration.yaml
+            - name: extra-configuration
+              mountPath: {{ .Values.config.mountPath }}/extra
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
       volumes:
-{{/*        - name: config-yaml*/}}
-{{/*          configMap:*/}}
-{{/*            # Provide the name of the ConfigMap you want to mount.*/}}
-{{/*            name: configuration-yaml*/}}
+        - name: configuration
+          configMap:
+            name: {{ .Release.Name }}-configuration
+            items:
+              - key: "configuration.yaml"
+                path: "configuration.yaml"
+        - name: extra-configuration
+          configMap:
+            name: {{ .Release.Name }}-extra-configuration
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

@@ -32,34 +32,35 @@ ingress:
   hostname: 'homeassistant.lexrj.com'
 
 config:
-  files:
-    configuration.yaml:
-      # Loads default set of integrations. Do not remove.
-      default_config:
+  fileContents: |
+    # Loads default set of integrations. Do not remove.
+    default_config:
 
-      recorder:
-        commit_interval: 30
+    recorder:
+      commit_interval: 30
 
-      http:
-        use_x_forwarded_for: true
-        trusted_proxies:
-          - 10.0.0.0/8
-        ip_ban_enabled: true
-        login_attempts_threshold: 5
+    http:
+      use_x_forwarded_for: true
+      trusted_proxies:
+        - 10.0.0.0/8
+      ip_ban_enabled: true
+      login_attempts_threshold: 5
 
-      # Load frontend themes from the themes folder
-      frontend:
-        themes: !include_dir_merge_named themes
+    # Load frontend themes from the themes folder
+    frontend:
+      themes: !include_dir_merge_named themes
 
-      automation: !include automations.yaml
-      script: !include scripts.yaml
-      scene: !include scenes.yaml
+    automation: !include automations.yaml
+    script: !include scripts.yaml
+    scene: !include scenes.yaml
 
-      media_player: !include_dir_list projected/media_players/
+    media_player:
+      - !include extra/living_room_media_center.yaml
 
-      homekit: !include projected.yaml
+    homekit: !include extra/homekit.yaml
 
-    media_player/living_room_media_center.yaml:
+  extraFiles:
+    living_room_media_center.yaml: |
       platform: universal
       name: Media Center
       unique_id: living_room_media_center
@@ -145,7 +146,7 @@ config:
             media_player.living_room_avr
         {% endif %}
 
-    homekit.yaml:
+    homekit.yaml: |
       - name: Home Assistant Bridge
         filter:
           include_entities:

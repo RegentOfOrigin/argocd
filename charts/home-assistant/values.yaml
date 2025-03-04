@@ -11,7 +11,8 @@ config:
   # Backups will eat this up. Manage your backups carefully
   storage: 2Gi
   # Define file contents to be projected as a config map
-  files: {}
+  fileContents: {}
+  extraFiles: {}
 
 macvlanAttachment: macvlan
 
