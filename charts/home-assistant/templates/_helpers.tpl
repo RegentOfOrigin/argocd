@@ -18,12 +18,6 @@ app.kubernetes.io/name: {{ .Release.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "home-assistant.image.registry" -}}
-{{- with .Values.image.registry }}
-{{ . }}/
-{{- end }}
-{{- end }}
-
 {{- define "home-assistant.image.tag" -}}
 {{- with .Values.image.tag }}
 :{{ . }}

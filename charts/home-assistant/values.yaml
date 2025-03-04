@@ -10,9 +10,6 @@ config:
   mountPath: /config
   # Backups will eat this up. Manage your backups carefully
   storage: 2Gi
-  # Define file contents to be projected as a config map
-  fileContents: {}
-  extraFiles: {}
 
 macvlanAttachment: macvlan
 
@@ -73,12 +70,10 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: false
-  className: ''
   annotations: {}
-  whitelistSourceRange: ''
 
   # -- Defines which ingress controller will implement the resource
-  ingressClassName: ''
+  className: ''
 
   # -- server hostname
   # @default -- `''`

@@ -46,16 +46,14 @@ spec:
         - name: main
           {{- with .Values.securityContext }}
           securityContext:
-            {{- . | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           image: "{{ .Values.image.repository }}{{ include "home-assistant.image.tag" . | nospace }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.service.enabled }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          {{- end }}
           env:
             {{- range $name, $value := .Values.env }}
             - name: {{ $name | quote }}
@@ -79,27 +77,13 @@ spec:
           volumeMounts:
             - name: config
               mountPath: {{ .Values.config.mountPath }}
-            - name: configuration
-              mountPath: {{ .Values.config.mountPath }}/configuration.yaml
-              subPath: configuration.yaml
-            - name: extra-configuration
-              mountPath: {{ .Values.config.mountPath }}/extra
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+      {{- with .Values.volumes }}
       volumes:
-        - name: configuration
-          configMap:
-            name: {{ .Release.Name }}-configuration
-            items:
-              - key: "configuration.yaml"
-                path: "configuration.yaml"
-        - name: extra-configuration
-          configMap:
-            name: {{ .Release.Name }}-extra-configuration
-        {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
-        {{- end }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

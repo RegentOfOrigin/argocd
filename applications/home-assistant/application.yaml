@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: home-assistant
   annotations:
-    link.argocd.argoproj.io/application: 'https://homeassistant.lexrj.com'
     argocd.argoproj.io/sync-wave: '10'
 spec:
   project: default
@@ -19,9 +18,9 @@ spec:
       - ApplyOutOfSyncOnly=true
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: manifests/home-assistant
+    path: charts/home-assistant
     targetRevision: HEAD
-#    helm:
-#      valueFiles:
-#        - values.yaml
-#        - values-lexrj.yaml
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-lexrj.yaml

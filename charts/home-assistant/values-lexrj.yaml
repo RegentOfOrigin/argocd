@@ -1,20 +1,23 @@
 macvlanAttachment: multus/macvlan-dhcp
 
+securityContext:
+  privileged: true
+
 volumes:
   - name: dev-skyconnect
     hostPath:
       path: /dev/serial/by-id/usb-Nabu_Casa_SkyConnect_v1.0_523dbab6b596ed1197bac098a7669f5d-if00-port0
-      type: CharDevice
   - name: dev-sonoff-zigbee
     hostPath:
       path: /dev/serial/by-id/usb-Nabu_Casa_SkyConnect_v1.0_523dbab6b596ed1197bac098a7669f5d-if00-port0
-      type: CharDevice
 
 volumeMounts:
   - name: dev-skyconnect
     mountPath: /dev/ttyUSB0
+    mountPropagation: Bidirectional
   - name: dev-sonoff-zigbee
     mountPath: /dev/ttyACM0
+    mountPropagation: Bidirectional
 
 nodeSelector: {}
 
@@ -29,141 +32,5 @@ ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: cloudflare
+    nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
   hostname: 'homeassistant.lexrj.com'
-
-config:
-  fileContents: |
-    # Loads default set of integrations. Do not remove.
-    default_config:
-
-    recorder:
-      commit_interval: 30
-
-    http:
-      use_x_forwarded_for: true
-      trusted_proxies:
-        - 10.0.0.0/8
-      ip_ban_enabled: true
-      login_attempts_threshold: 5
-
-    # Load frontend themes from the themes folder
-    frontend:
-      themes: !include_dir_merge_named themes
-
-    automation: !include automations.yaml
-    script: !include scripts.yaml
-    scene: !include scenes.yaml
-
-    media_player:
-      - !include extra/living_room_media_center.yaml
-
-    homekit: !include extra/homekit.yaml
-
-  extraFiles:
-    living_room_media_center.yaml: |
-      platform: universal
-      name: Media Center
-      unique_id: living_room_media_center
-      device_class: receiver
-      children:
-        - media_player.living_room_avr       # Denon AVR Integration entity
-        - media_player.living_room_tv
-        - media_player.living_room_avr_heos  # Denon HEOS Integration entity
-        - media_player.living_room_shield_cast
-        - media_player.living_room_shield_remote
-        - media_player.living_room_shield_plex
-      browse_media_entity: media_player.living_room_shield_plex
-      commands:
-        turn_on:
-          service: homeassistant.turn_on
-          data:
-            entity_id:
-              - button.living_room_tv_wake_on_lan
-              - media_player.living_room_avr
-              - light.living_room_media_center_bias
-        turn_off:
-          service: homeassistant.turn_off
-          data:
-            entity_id:
-              - media_player.living_room_tv
-              - media_player.living_room_avr
-              - light.living_room_media_center_bias
-              - media_player.living_room_shield_remote
-        volume_up:
-          action: media_player.volume_up
-          target:
-            entity_id: media_player.living_room_avr
-        volume_down:
-          action: media_player.volume_down
-          target:
-            entity_id: media_player.living_room_avr
-        volume_mute:
-          action: media_player.volume_mute
-          target:
-            entity_id: media_player.living_room_avr
-        select_source:
-          action: media_player.select_source
-          target:
-            entity_id: media_player.living_room_avr
-          data:
-            source: "{{ source }}"
-        volume_set:
-          action: media_player.volume_set
-          target:
-            entity_id: media_player.living_room_avr
-          data:
-            volume_level: "{{ volume_level }}"
-        select_sound_mode:
-          action: media_player.select_sound_mode
-          target:
-            entity_id: media_player.living_room_avr
-          data:
-            sound_mode: "{{ sound_mode }}"
-      attributes:
-        source: media_player.living_room_avr|source
-        source_list: media_player.living_room_avr|source_list
-        sound_mode: media_player.living_room_avr|sound_mode
-        sound_mode_raw: media_player.living_room_avr|sound_mode_raw
-        sound_mode_list: media_player.living_room_avr|sound_mode_list
-        volume_level: media_player.living_room_avr|volume_level
-        is_volume_muted: media_player.living_room_avr|is_volume_muted
-      active_child_template: >
-        {% if states('media_player.living_room_avr') != 'off' %}
-            {% if is_state_attr('media_player.living_room_avr', 'source', 'SHIELD') and states('media_player.living_room_shield_remote') != 'off' %}
-                {% if is_state_attr('media_player.living_room_shield_remote', 'app_id', 'com.plexapp.android') and states('media_player.living_room_shield_plex') not in ['idle', 'unavailable'] %}
-                    media_player.living_room_shield_plex
-                {% elif states('media_player.living_room_shield_cast') != 'off' %}
-                    media_player.living_room_shield_cast
-                {% elif states('media_player.living_room_shield_remote') != 'off' %}
-                    media_player.living_room_shield_remote
-                {% endif %}
-            {% elif is_state_attr('media_player.living_room_avr', 'source', 'HEOS') and states('media_player.living_room_avr_heos') != 'off' %}
-                media_player.living_room_avr_heos
-            {% else %}
-                media_player.living_room_avr
-            {% endif %}
-        {% else %}
-            media_player.living_room_avr
-        {% endif %}
-
-    homekit.yaml: |
-      - name: Home Assistant Bridge
-        filter:
-          include_entities:
-            - light.living_room
-            - light.hallway
-            - light.landing
-            - light.bedroom
-            - light.bathroom
-            - light.spare_room
-            - light.office
-            - sensor.bedroom_temperature
-            - sensor.living_room_temperature
-            - input_button.bedtime
-      - name: Living Room Media Center
-        mode: accessory
-        # Default port is 21063; Extra bridges must specify a different port
-        port: 21064
-        filter:
-          include_entities:
-            - media_player.living_room_media_center
