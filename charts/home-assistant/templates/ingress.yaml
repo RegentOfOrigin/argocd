@@ -1,0 +1,54 @@
+{{- if and .Values.service.enabled .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "home-assistant.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ tpl . $ }}
+  {{- end }}
+  rules:
+    - host: {{ tpl (.Values.ingress.hostname) $ }}
+      http:
+        paths:
+        {{- with .Values.ingress.extraPaths }}
+          {{- tpl (toYaml .) $ | nindent 10 }}
+        {{- end }}
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+            backend:
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: {{ .Values.service.port }}
+    {{- range .Values.ingress.extraHosts }}
+    - host: {{ tpl .name $ | quote }}
+      http:
+        paths:
+          - path: {{ .path | default $.Values.ingress.path }}
+            pathType: {{ .pathType | default $.Values.ingress.pathType }}
+            backend:
+              service:
+                name: {{ $.Release.Name }}
+                port:
+                  name: http
+    {{- end }}
+    {{- with .Values.ingress.extraRules }}
+      {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- end }}
+  tls:
+    - hosts:
+        - {{ tpl (.Values.ingress.hostname) $ }}
+      {{- range .Values.ingress.extraHosts }}
+        {{- if .name }}
+        - {{ tpl .name $ }}
+        {{- end }}
+      {{- end }}
+      secretName: {{ .Release.Name }}-server-tls
+  {{- end }}

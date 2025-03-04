@@ -19,5 +19,9 @@ spec:
       - ApplyOutOfSyncOnly=true
   source:
     repoURL: https://github.com/RegentOfOrigin/argocd.git
-    path: manifests/home-assistant
+    path: charts/home-assistant
     targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-lexrj.yaml
