@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        k8s.v1.cni.cncf.io/networks: {{ .Values.macvlanAttachment }}
+        k8s.v1.cni.cncf.io/networks: {{ .Values.macvlanAttachment | squote }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

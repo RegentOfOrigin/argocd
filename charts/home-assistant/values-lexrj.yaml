@@ -1,7 +1,9 @@
-macvlanAttachment: multus/macvlan-dhcp
+macvlanAttachment: multus/macvlan
 
 securityContext:
   privileged: true
+  capabilities:
+    add: [ "NET_BROADCAST" ]
 
 volumes:
   - name: dev-skyconnect
