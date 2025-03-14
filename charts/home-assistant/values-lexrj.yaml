@@ -1,4 +1,4 @@
-macvlanAttachment: multus/macvlan
+macvlanAttachment: '[{"name": "macvlan", "namespace": "multus", "default-route": ["10.0.0.1"]}]'
 
 securityContext:
   privileged: true
