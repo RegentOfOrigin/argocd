@@ -7,6 +7,7 @@ spec:
     "cniVersion": "0.3.0",
     "type": "macvlan",
     "mode": "bridge",
+    "master": "enp1s0",
     "ipam": {
       "type": "host-local",
       "subnet": "10.5.0.64/26",
