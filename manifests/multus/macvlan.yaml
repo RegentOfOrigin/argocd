@@ -10,9 +10,6 @@ spec:
     "ipam": {
       "type": "host-local",
       "subnet": "10.5.0.64/26",
-      "routes": [
-        { "dst": "0.0.0.0/0" }
-      ],
-      "gateway": "10.5.0.127"
+      "gateway": "10.0.0.1"
     }
   }'
