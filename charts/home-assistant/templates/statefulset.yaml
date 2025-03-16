@@ -55,16 +55,15 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:
-            {{- range $name, $value := .Values.env }}
-            - name: {{ $name | quote }}
-              value: {{ $value | quote }}
+            {{- range $envName, $envValue := .Values.env }}
+            - name: {{ $envName | quote }}
+              value: {{ $envValue | quote }}
             {{- end }}
-            {{- range $name, $value := .Values.envFrom }}
-            - name: {{ $name | quote }}
+            {{- range $envName, $envValue := .Values.envFrom }}
+            - name: {{ $envName | quote }}
               valueFrom:
-                 {{- $value | toYaml | nindent 16 }}
+                 {{- $envValue | toYaml | nindent 16 }}
             {{- end }}
-          {{- if .Values.service.enabled }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -73,13 +72,53 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- end }}
           volumeMounts:
             - name: config
               mountPath: {{ .Values.config.mountPath }}
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+        {{- range $name, $value := .Values.addons }}
+        {{- if not $value.enabled }}{{ continue }}{{ end }}
+        - name: {{ $name }}
+          {{- with $value }}
+          {{- with $value.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ $value.image.repository }}:{{ $value.image.tag }}"
+          imagePullPolicy: {{ $value.image.pullPolicy }}
+          ports:
+            - name: {{ $name }}
+              containerPort: {{ $value.service.port }}
+              protocol: TCP
+          env:
+            {{- range $envName, $envValue := $value.env }}
+            - name: {{ $envName | quote }}
+              value: {{ $envValue | quote }}
+            {{- end }}
+            {{- range $envName, $envValue := $value.envFrom }}
+            - name: {{ $envName | quote }}
+              valueFrom:
+                 {{- $envValue | toYaml | nindent 16 }}
+            {{- end }}
+          {{- with $value.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $value.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: {{ $.Values.config.mountPath }}
+              subPath: addons/{{ $name }}
+            {{- with $value.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

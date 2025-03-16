@@ -7,6 +7,10 @@ metadata:
     {{- include "home-assistant.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      if ($http_referer !~* "https://{{ tpl $.Values.ingress.hostname $ }}") {
+          return 403;
+      }
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -17,27 +21,28 @@ spec:
     - host: {{ tpl .Values.ingress.hostname $ }}
       http:
         paths:
-        {{- with .Values.ingress.extraPaths }}
-          {{- tpl (toYaml .) $ | nindent 10 }}
-        {{- end }}
-          - path: {{ .Values.ingress.path }}
-            pathType: {{ .Values.ingress.pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}
                 port:
                   name: http
-    {{- range .Values.ingress.extraHosts }}
-    - host: {{ tpl .name $ | quote }}
+        {{- with .Values.ingress.extraPaths }}
+          {{- tpl (toYaml .) $ | nindent 10 }}
+        {{- end }}
+    {{- range $name, $value := $.Values.addons }}
+    {{- if not $value.enabled }}{{ continue }}{{ end }}
+    - host: {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
       http:
         paths:
-          - path: {{ .path | default $.Values.ingress.path }}
-            pathType: {{ .pathType | default $.Values.ingress.pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ $.Release.Name }}
                 port:
-                  name: http
+                  name: {{ $name }}
     {{- end }}
     {{- with .Values.ingress.extraRules }}
       {{- tpl (toYaml .) $ | nindent 4 }}
@@ -46,9 +51,8 @@ spec:
     - secretName: {{ .Release.Name }}-server-tls
       hosts:
         - {{ tpl (.Values.ingress.hostname) $ }}
-        {{- range .Values.ingress.extraHosts }}
-        {{- if .name }}
-        - {{ tpl .name $ }}
-        {{- end }}
+        {{- range $name, $value := $.Values.addons }}
+        {{- if not $value.enabled }}{{ continue }}{{ end }}
+        - {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
         {{- end }}
 {{- end }}

@@ -61,7 +61,6 @@ serviceAccount:
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
-  enabled: false
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
@@ -75,19 +74,10 @@ ingress:
   # -- Defines which ingress controller will implement the resource
   className: ''
 
-  # -- server hostname
+  # -- server hostname. addons will be added as subdomains, e.g. homeassistant.example.com
   # @default -- `''`
+  ## Note: Supports use of custom Helm templates
   hostname: ''
-
-  # -- The path to the server
-  path: /
-
-  # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-  pathType: Prefix
-
-  # -- The list of additional hostnames to be covered by ingress record
-  # @default -- `[]`
-  extraHosts: []
 
   # -- Additional ingress paths
   # @default -- `[]`
@@ -104,3 +94,32 @@ ingress:
   extraTls: []
 
 resources: {}
+
+addons:
+  esphome:
+    enabled: false
+    image:
+      repository: 'ghcr.io/esphome/esphome'
+      # This sets the pull policy for images.
+      pullPolicy: Always
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 'latest'
+
+    # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+    service:
+      # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+      port: 6052
+
+    securityContext: {}
+
+    env: []
+
+    envFrom: []
+
+    # This is to set up the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+    livenessProbe: {}
+
+    readinessProbe: {}
+
+    # Additional volumeMounts on the addon container.
+    volumeMounts: []

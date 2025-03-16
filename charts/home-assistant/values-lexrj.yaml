@@ -21,14 +21,15 @@ volumeMounts:
     mountPath: /dev/ttyACM0
     mountPropagation: Bidirectional
 
+addons:
+  esphome:
+    enabled: true
+
 nodeSelector: {}
 
 nodeName: 'aether'
 
 tolerations: []
-
-service:
-  enabled: true
 
 ingress:
   enabled: true
