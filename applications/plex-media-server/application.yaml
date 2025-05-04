@@ -18,10 +18,9 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    repoURL: https://github.com/RegentOfOrigin/pms-docker.git
-    path: charts/plex-media-server
-#    chart: plex-media-server
-    targetRevision: init-containers
+    repoURL: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
+    chart: plex-media-server
+    targetRevision: 0.*
     helm:
       valuesObject:
         ingress:

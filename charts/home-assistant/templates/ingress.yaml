@@ -7,10 +7,6 @@ metadata:
     {{- include "home-assistant.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/server-snippet: |
-      if ($http_referer !~* "https://{{ tpl $.Values.ingress.hostname $ }}") {
-          return 403;
-      }
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -31,6 +27,29 @@ spec:
         {{- with .Values.ingress.extraPaths }}
           {{- tpl (toYaml .) $ | nindent 10 }}
         {{- end }}
+    {{- with .Values.ingress.extraRules }}
+      {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- end }}
+  tls:
+    - secretName: {{ .Release.Name }}-server-tls
+      hosts:
+        - {{ tpl (.Values.ingress.hostname) $ }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-addons
+  labels:
+    {{- include "home-assistant.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ tpl . $ }}
+  {{- end }}
+  rules:
     {{- range $name, $value := $.Values.addons }}
     {{- if not $value.enabled }}{{ continue }}{{ end }}
     - host: {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
@@ -48,9 +67,8 @@ spec:
       {{- tpl (toYaml .) $ | nindent 4 }}
     {{- end }}
   tls:
-    - secretName: {{ .Release.Name }}-server-tls
+    - secretName: {{ .Release.Name }}-server-addons-tls
       hosts:
-        - {{ tpl (.Values.ingress.hostname) $ }}
         {{- range $name, $value := $.Values.addons }}
         {{- if not $value.enabled }}{{ continue }}{{ end }}
         - {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}

@@ -9,3 +9,11 @@ tolerations:
   - key: node.lexrj.com/role
     operator: Equal
     value: storage
+env:
+  VPN_ENABLED: 'false'
+  VPN_CONF: wg0
+  VPN_PROVIDER: proton
+  VPN_LAN_NETWORK: 10.0.0.0/12,10.152.183.0/24
+  VPN_EXPOSE_PORTS_ON_LAN: 8080/tcp,8080/udp
+  VPN_AUTO_PORT_FORWARD: 'true'
+  VPN_NAMESERVERS: 10.152.183.10
