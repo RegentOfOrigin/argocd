@@ -1,0 +1,127 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nextcloud
+  annotations:
+    argocd.argoproj.io/sync-wave: '10'
+    link.argocd.argoproj.io/application: 'https://nextcloud.lexrj.com'
+spec:
+  project: default
+  destination:
+    name: in-cluster
+    namespace: nextcloud
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    repoURL: https://nextcloud.github.io/helm/
+    chart: nextcloud
+    targetRevision: 6.*
+    helm:
+      valuesObject:
+        ingress:
+          enabled: true
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 4G
+            cert-manager.io/cluster-issuer: cloudflare
+            nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+          tls:
+           - secretName: nextcloud-tls
+             hosts:
+               - nextcloud.lexrj.com
+        nextcloud:
+          host: nextcloud.lexrj.com
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secrets
+            usernameKey: nextcloud-admin-username
+            passwordKey: nextcloud-admin-password
+          configs:
+            proxy.config.php: |-
+              <?php
+              $CONFIG = array (
+                'trusted_proxies' => array(
+                  0 => '10.0.0.0/8',
+                ),
+                'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+                'default_timezone' => 'Europe/Dublin',
+
+              );
+            previews.config.php: |-
+              <?php
+              $CONFIG = array (
+                'enable_previews' => true,
+                'enabledPreviewProviders' => array (
+                  'OC\Preview\Movie',
+                  'OC\Preview\PNG',
+                  'OC\Preview\JPEG',
+                  'OC\Preview\GIF',
+                  'OC\Preview\BMP',
+                  'OC\Preview\XBitmap',
+                  'OC\Preview\MP3',
+                  'OC\Preview\MP4',
+                  'OC\Preview\TXT',
+                  'OC\Preview\MarkDown',
+                  'OC\Preview\PDF'
+                ),
+              );
+
+          # Extra mounts for the pods. Example shown is for connecting a legacy NFS volume
+          # to NextCloud pods in Kubernetes. This can then be configured in External Storage
+#          extraVolumes:
+#            - name: nfs
+#              nfs:
+#                type: nfs
+#                path: /tank/nextcloud
+#                server: tartarus.node.internal
+#          extraVolumeMounts:
+#            - name: nfs
+#              mountPath: "/zfs"
+
+        internalDatabase:
+          enabled: false
+        externalDatabase:
+          enabled: true
+          type: postgresql
+          database: nextcloud
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secrets
+            usernameKey: postgres-username
+            passwordKey: postgres-password
+        postgresql:
+          enabled: true
+          global:
+            postgresql:
+              auth:
+                database: nextcloud
+                existingSecret: nextcloud-secrets
+                secretKeys:
+                  adminPasswordKey: postgres-username
+                  userPasswordKey: postgres-password
+                  replicationPasswordKey: postgres-password
+          primary:
+            persistence:
+              enabled: true
+        redis:
+          enabled: false
+          auth:
+            enabled: true
+            existingSecret: nextcloud-secrets
+            existingSecretPasswordKey: redis-password
+        collabora:
+          enabled: false
+        cronjob:
+          enabled: true
+        persistence:
+          enabled: true
+          nextcloudData:
+            enabled: true
+        imaginary:
+          enabled: true
+        rbac:
+          enabled: true
