@@ -23,16 +23,6 @@ spec:
     targetRevision: 6.*
     helm:
       valuesObject:
-        ingress:
-          enabled: true
-          annotations:
-            nginx.ingress.kubernetes.io/proxy-body-size: 4G
-            cert-manager.io/cluster-issuer: cloudflare
-            nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
-          tls:
-           - secretName: nextcloud-tls
-             hosts:
-               - nextcloud.lexrj.com
         nextcloud:
           host: nextcloud.lexrj.com
           existingSecret:
@@ -81,19 +71,31 @@ spec:
 #          extraVolumeMounts:
 #            - name: nfs
 #              mountPath: "/zfs"
+        ingress:
+          enabled: true
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 4G
+            cert-manager.io/cluster-issuer: cloudflare
+            nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+          tls:
+            - secretName: nextcloud-tls
+              hosts:
+                - nextcloud.lexrj.com
 
         internalDatabase:
           enabled: false
+
         externalDatabase:
           enabled: true
           type: postgresql
           database: nextcloud
-          host: nextcloud-postgresql
+          host: nextcloud-postgresql:5432
           existingSecret:
             enabled: true
             secretName: nextcloud-secrets
             usernameKey: postgres-username
             passwordKey: postgres-password
+
         postgresql:
           enabled: true
           global:
@@ -108,21 +110,27 @@ spec:
           primary:
             persistence:
               enabled: true
+
         redis:
           enabled: false
           auth:
             enabled: true
             existingSecret: nextcloud-secrets
             existingSecretPasswordKey: redis-password
+
         collabora:
           enabled: false
+
         cronjob:
           enabled: true
+
         persistence:
           enabled: true
           nextcloudData:
             enabled: true
+
         imaginary:
           enabled: true
+
         rbac:
           enabled: true
