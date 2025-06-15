@@ -34,32 +34,14 @@ spec:
             proxy.config.php: |-
               <?php
               $CONFIG = array (
+                'default_timezone' => 'Europe/Dublin',
+                'enable_previews' => true,
+                'filelocking.enabled' => 'true',
+                'overwriteprotocol' => 'https',
                 'trusted_proxies' => array(
                   0 => '10.0.0.0/8',
                 ),
-                'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
-                'default_timezone' => 'Europe/Dublin',
-
               );
-            previews.config.php: |-
-              <?php
-              $CONFIG = array (
-                'enable_previews' => true,
-                'enabledPreviewProviders' => array (
-                  'OC\Preview\Movie',
-                  'OC\Preview\PNG',
-                  'OC\Preview\JPEG',
-                  'OC\Preview\GIF',
-                  'OC\Preview\BMP',
-                  'OC\Preview\XBitmap',
-                  'OC\Preview\MP3',
-                  'OC\Preview\MP4',
-                  'OC\Preview\TXT',
-                  'OC\Preview\MarkDown',
-                  'OC\Preview\PDF'
-                ),
-              );
-
           # Extra mounts for the pods. Example shown is for connecting a legacy NFS volume
           # to NextCloud pods in Kubernetes. This can then be configured in External Storage
 #          extraVolumes:
@@ -81,10 +63,8 @@ spec:
             - secretName: nextcloud-tls
               hosts:
                 - nextcloud.lexrj.com
-
         internalDatabase:
           enabled: false
-
         externalDatabase:
           enabled: true
           type: postgresql
@@ -95,7 +75,6 @@ spec:
             secretName: nextcloud-secrets
             usernameKey: postgres-username
             passwordKey: postgres-password
-
         postgresql:
           enabled: true
           global:
@@ -110,27 +89,21 @@ spec:
           primary:
             persistence:
               enabled: true
-
         redis:
           enabled: false
           auth:
             enabled: true
             existingSecret: nextcloud-secrets
             existingSecretPasswordKey: redis-password
-
         collabora:
           enabled: false
-
         cronjob:
           enabled: true
-
         persistence:
           enabled: true
           nextcloudData:
             enabled: true
-
         imaginary:
           enabled: true
-
         rbac:
           enabled: true
