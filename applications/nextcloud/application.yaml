@@ -88,6 +88,7 @@ spec:
           enabled: true
           type: postgresql
           database: nextcloud
+          host: nextcloud-postgresql
           existingSecret:
             enabled: true
             secretName: nextcloud-secrets
