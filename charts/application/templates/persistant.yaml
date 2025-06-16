@@ -1,0 +1,12 @@
+{{- range $name, $value := .Values.extraPersistentVolumeClaims }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ $value.storage }}
+{{- end }}

@@ -1,0 +1,25 @@
+image:
+  repository: ckulka/baikal:nginx
+user: ''
+group: ''
+config:
+  mountPath: /var/www/baikal/config
+extraPersistentVolumeClaims:
+  baikal-specific:
+    storage: 2Gi
+    storageClassName: nfs
+volumes:
+  - name: baikal-specific
+    persistentVolumeClaim:
+      claimName: baikal-specific
+volumeMounts:
+  - mountPath: /var/www/baikal/Specific
+    name: baikal-specific
+service:
+  port: 80
+multimedia:
+  enabled: false
+env:
+  APPLY_HOME_ASSISTANT_FIX: "true"
+ingress:
+  hostname: dav.lexrj.com

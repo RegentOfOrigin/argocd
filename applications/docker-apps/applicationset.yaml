@@ -53,6 +53,15 @@ spec:
             project: default
             destination:
               namespace: starr
+    - list:
+        elements:
+          - name: sabre-dav
+        template:
+          metadata: {}
+          spec:
+            project: default
+            destination:
+              namespace: sabre-dav
   template:
     metadata:
       name: '{{ .name }}'

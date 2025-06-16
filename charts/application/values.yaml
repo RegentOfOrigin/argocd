@@ -27,6 +27,17 @@ config:
   storage: 2Gi
 #  storageClassName: nfs
 
+extraPersistentVolumeClaims: {}
+#  myclaim:
+#    storage: 2Gi
+#    storageClassName: nfs
+
+# Additional volumes on the output StatefulSet definition.
+volumes: []
+
+# Additional volumeMounts on the output StatefulSet definition.
+volumeMounts: []
+
 # This is for setting Kubernetes Annotations to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
@@ -47,12 +58,6 @@ env: []
 livenessProbe: {}
 
 readinessProbe: {}
-
-# Additional volumes on the output StatefulSet definition.
-volumes: []
-
-# Additional volumeMounts on the output StatefulSet definition.
-volumeMounts: []
 
 nodeSelector: {}
 
