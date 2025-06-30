@@ -23,3 +23,4 @@ env:
   APPLY_HOME_ASSISTANT_FIX: "true"
 ingress:
   hostname: dav.lexrj.com
+  whitelistSourceRange: 0.0.0.0/0
