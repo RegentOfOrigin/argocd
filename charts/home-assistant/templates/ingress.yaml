@@ -35,6 +35,7 @@ spec:
       hosts:
         - {{ tpl (.Values.ingress.hostname) $ }}
 ---
+{{- if .Values.addons.esphome.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -73,4 +74,5 @@ spec:
         {{- if not $value.enabled }}{{ continue }}{{ end }}
         - {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
         {{- end }}
+{{- end }}
 {{- end }}
