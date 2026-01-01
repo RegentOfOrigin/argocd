@@ -32,18 +32,18 @@ spec:
               cert-manager.io/cluster-issuer: cloudflare
               nginx.ingress.kubernetes.io/proxy-body-size: '0'
             rules:
-              - host: {{ .Release.Name }}-lexrj.com
+              - host: {{`{{ .Release.Name }}`}}.lexrj.com
                 http:
                   paths:
                     - path: /
                       pathType: PathPrefix
                       backend:
                         service:
-                          name: {{ .Release.Name }}
+                          name: {{`{{ .Release.Name }}`}}
                           port:
                             number: '8080'
             tls:
               - hosts:
-                  - trilium.lexrj.com
-                secretName: {{ .Release.Name }}-server-tls
+                  - {{`{{ .Release.Name }}`}}.lexrj.com
+                secretName: {{`{{ .Release.Name }}`}}-server-tls
 
