@@ -27,7 +27,11 @@ spec:
           create: true
         persistence:
           data:
-            existingClaim: null
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
         ingress:
           main:
             ingressClassName: nginx
