@@ -27,17 +27,23 @@ spec:
           create: true
         ingress:
           main:
-            enabled: true
-            className: nginx
+            ingressClassName: nginx
             annotations:
               cert-manager.io/cluster-issuer: cloudflare
               nginx.ingress.kubernetes.io/proxy-body-size: '0'
-            hosts:
-              - host: trilium.lexrj.com
-                paths:
-                   - path: /
+            rules:
+              - host: {{ .Release.Name }}-lexrj.com
+                http:
+                  paths:
+                    - path: /
+                      pathType: PathPrefix
+                      backend:
+                        service:
+                          name: {{ .Release.Name }}
+                          port:
+                            number: '8080'
             tls:
-              - secretName: trilium-server-tls
-                hosts:
+              - hosts:
                   - trilium.lexrj.com
+                secretName: {{ .Release.Name }}-server-tls
 
