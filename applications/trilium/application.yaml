@@ -22,7 +22,7 @@ spec:
     chart: trilium
     targetRevision: 1.*
     helm:
-      values: |
+      valuesObject:
         serviceAccount:
           create: true
         ingress:
@@ -31,13 +31,15 @@ spec:
             className: nginx
             annotations:
               cert-manager.io/cluster-issuer: cloudflare
+              # proxy-body-size is set to 0 to remove the body limit on file uploads
               nginx.ingress.kubernetes.io/proxy-body-size: '0'
+              # nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
             hosts:
               - host: trilium.lexrj.com
                 paths:
                    - path: /
             tls:
-              - hosts:
+              - secretName: trilium-server-tls
+                hosts:
                   - trilium.lexrj.com
-              secretName: trilium-server-tls
 
