@@ -25,6 +25,9 @@ spec:
       valuesObject:
         serviceAccount:
           create: true
+        persistence:
+          data:
+            existingClaim: null
         ingress:
           main:
             ingressClassName: nginx
