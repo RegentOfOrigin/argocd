@@ -2,6 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: trilium
+  annotations:
+    argocd.argoproj.io/sync-wave: '100'
+    link.argocd.argoproj.io/application: 'https://trilium.lexrj.com'
 spec:
   project: default
   destination:
@@ -15,8 +18,8 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    chart: trilium
     repoURL: https://trilium-next.github.io/helm-charts
+    chart: trilium
     targetRevision: 1.*
     helm:
       valuesObject:
@@ -37,6 +40,6 @@ spec:
                    - path: /
             tls:
               - hosts:
-                  - notes.lexrj.com
+                  - trilium.lexrj.com
               secretName: trilium-server-tls
 
