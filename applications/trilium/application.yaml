@@ -18,7 +18,7 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    repoURL: https://trilium-next.github.io/helm-charts
+    repoURL: https://triliumnext.github.io/helm-charts
     chart: trilium
     targetRevision: 1.*
     helm:
