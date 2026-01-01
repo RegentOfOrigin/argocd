@@ -22,7 +22,7 @@ spec:
     chart: trilium
     targetRevision: 1.*
     helm:
-      valuesObject:
+      values: |
         serviceAccount:
           create: true
         ingress:
