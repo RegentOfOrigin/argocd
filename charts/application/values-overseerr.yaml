@@ -1,6 +1,6 @@
 image:
-  registry: lscr.io
-  repository: linuxserver/overseerr
+  registry: ghcr.io
+  repository: hotio/seerr
 service:
   port: 5055
 multimedia:
