@@ -46,7 +46,7 @@ spec:
           - name: prowlarr
           - name: bazarr
           - name: recyclarr
-          - name: overseerr
+          - name: seerr
         template:
           metadata: {}
           spec:
