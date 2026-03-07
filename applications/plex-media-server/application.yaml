@@ -23,6 +23,9 @@ spec:
     targetRevision: 1.*
     helm:
       valuesObject:
+        image:
+          tag: "latest"
+          pullPolicy: Always
         ingress:
           enabled: true
           url: plex.lexrj.com
