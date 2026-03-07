@@ -18,8 +18,8 @@ app.kubernetes.io/name: {{ .Release.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "home-assistant.image.tag" -}}
-{{- with .Values.image.tag }}
-:{{ . }}
+{{- define "home-assistant.image" -}}
+{{- with .Values.image }}
+{{ with .registry }}{{ . }}/{{ end }}{{ .repository }}{{ with .tag }}:{{ . }}{{ end }}{{ with .digest }}@{{ . }}{{ end }}
 {{- end }}
 {{- end }}

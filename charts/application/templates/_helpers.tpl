@@ -41,14 +41,8 @@ nginx.ingress.kubernetes.io/whitelist-source-range: {{ . }}
 {{- end }}
 {{- end }}
 
-{{- define "application.image.registry" -}}
-{{- with .Values.image.registry }}
-{{ . }}/
-{{- end }}
-{{- end }}
-
-{{- define "application.image.tag" -}}
-{{- with .Values.image.tag }}
-:{{ . }}
+{{- define "application.image" -}}
+{{- with .Values.image }}
+{{ with .registry }}{{ . }}/{{ end }}{{ .repository }}{{ with .tag }}:{{ . }}{{ end }}{{ with .digest }}@{{ . }}{{ end }}
 {{- end }}
 {{- end }}

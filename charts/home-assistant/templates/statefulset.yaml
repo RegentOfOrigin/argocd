@@ -34,6 +34,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      revisionHistoryLimit: 5
       {{- with .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
@@ -48,7 +49,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}{{ include "home-assistant.image.tag" . | nospace }}"
+          image: "{{ include "home-assistant.image" . | nospace }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

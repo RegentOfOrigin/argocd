@@ -33,6 +33,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      revisionHistoryLimit: 5
       {{- with .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
@@ -47,7 +48,7 @@ spec:
           securityContext:
             {{- . | nindent 12 }}
           {{- end }}
-          image: "{{ include "application.image.registry" . | nospace }}{{ .Values.image.repository }}{{ include "application.image.tag" . | nospace }}"
+          image: "{{ include "application.image" . | nospace }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.resources }}
           resources:
