@@ -20,7 +20,7 @@ spec:
   source:
     repoURL: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
     chart: plex-media-server
-    targetRevision: 0.*
+    targetRevision: 1.*
     helm:
       valuesObject:
         ingress:
