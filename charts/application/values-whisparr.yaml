@@ -2,3 +2,11 @@ image:
   registry: ghcr.io
   repository: hotio/whisparr
   tag: v3
+
+resources:
+  requests:
+    memory: "500Mi"
+    cpu: "250m"
+  limits:
+    memory: "2Gi"
+    cpu: "1"

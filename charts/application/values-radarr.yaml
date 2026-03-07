@@ -1,3 +1,11 @@
 image:
   registry: lscr.io
   repository: linuxserver/radarr
+
+resources:
+  requests:
+    memory: "500Mi"
+    cpu: "250m"
+  limits:
+    memory: "2Gi"
+    cpu: "1"

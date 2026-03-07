@@ -49,6 +49,10 @@ spec:
           {{- end }}
           image: "{{ include "application.image.registry" . | nospace }}{{ .Values.image.repository }}{{ include "application.image.tag" . | nospace }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.resources }}
+          resources:
+            {{- . | nindent 12 }}
+          {{- end}}
           {{- if .Values.service.enabled }}
           ports:
             - name: http
