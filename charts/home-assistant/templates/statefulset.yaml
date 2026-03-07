@@ -9,6 +9,7 @@ metadata:
     {{- toYaml . | indent 4 }}
   {{- end }}
 spec:
+  revisionHistoryLimit: 5
   volumeClaimTemplates:
     - metadata:
         name: config
@@ -34,7 +35,6 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      revisionHistoryLimit: 5
       {{- with .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
