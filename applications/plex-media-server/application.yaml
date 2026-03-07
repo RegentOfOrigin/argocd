@@ -29,6 +29,10 @@ spec:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: cloudflare
+          tls:
+            - hosts:
+                - plex.lexrj.com
+              secretName: plex-media-server-server-tls
         extraEnv:
           ADVERTISE_IP: https://plex.lexrj.com:443
         serviceAccount:
