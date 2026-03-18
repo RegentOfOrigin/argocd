@@ -1,7 +1,5 @@
 image:
   registry: ghcr.io
   repository: hotio/seerr
-service:
-  port: 5055
 multimedia:
   enabled: false
