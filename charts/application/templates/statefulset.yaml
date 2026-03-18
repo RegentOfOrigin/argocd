@@ -73,6 +73,10 @@ spec:
               value: "{{ . }}"
             {{- end }}
             {{- end }}
+            {{- if and (hasPrefix "hotio/" .Values.image.repository) .Values.service.enabled }}
+            - name: WEBUI_PORTS
+              value: "{{ .Values.service.port }}/tcp"
+            {{- end }}
             {{- range $name, $value := .Values.env }}
             - name: {{ $name | quote }}
               value: {{ $value | quote }}
