@@ -3,3 +3,5 @@ image:
   repository: hotio/seerr
 multimedia:
   enabled: false
+service:
+  port: 5055
