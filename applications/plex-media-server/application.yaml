@@ -40,6 +40,11 @@ spec:
           ADVERTISE_IP: https://plex.lexrj.com:443
         serviceAccount:
           automountServiceAccountToken: true
+        pms:
+          resources:
+            requests:
+              cpu: 3
+              memory: 4000Mi
         extraVolumes:
           - name: dev-dri
             hostPath:
