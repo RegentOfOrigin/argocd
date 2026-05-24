@@ -8,9 +8,6 @@ env:
   STASH_METADATA: /config/metadata/
   STASH_CACHE: /config/cache/
   STASH_STASH: /multimedia/Whisparr/
-nodeSelector:
-  node.lexrj.com/role: storage
-tolerations:
-  - key: node.lexrj.com/role
-    operator: Equal
-    value: storage
+multimedia:
+  type: hostPath
+nodeName: tartarus

@@ -3,12 +3,7 @@ image:
   repository: hotio/qbittorrent
 multimedia:
   type: hostPath
-nodeSelector:
-  node.lexrj.com/role: storage
-tolerations:
-  - key: node.lexrj.com/role
-    operator: Equal
-    value: storage
+nodeName: tartarus
 env:
   VPN_ENABLED: 'false'
   VPN_CONF: wg0

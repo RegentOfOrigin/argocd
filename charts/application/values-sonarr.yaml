@@ -1,7 +1,9 @@
 image:
   registry: lscr.io
   repository: linuxserver/sonarr
-
+multimedia:
+  type: hostPath
+nodeName: tartarus
 resources:
   requests:
     memory: "500Mi"

@@ -3,3 +3,4 @@ image:
   repository: linuxserver/prowlarr
 multimedia:
   enabled: false
+nodeName: tartarus

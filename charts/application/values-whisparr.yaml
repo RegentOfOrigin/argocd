@@ -2,7 +2,9 @@ image:
   registry: ghcr.io
   repository: hotio/whisparr
   tag: v3
-
+multimedia:
+  type: hostPath
+nodeName: tartarus
 resources:
   requests:
     memory: "500Mi"
