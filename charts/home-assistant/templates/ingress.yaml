@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}
   labels:
-    {{- include "home-assistant.labels" . | nindent 4 }}
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

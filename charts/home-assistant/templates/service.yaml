@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}
   labels:
-    {{- include "home-assistant.labels" . | nindent 4 }}
-spec:
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ExternalName
   externalName: homeassistant.local:8123
