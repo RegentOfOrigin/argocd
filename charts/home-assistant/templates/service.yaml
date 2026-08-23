@@ -7,4 +7,4 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ExternalName
-  externalName: homeassistant.local:8123
+  externalName: homeassistant.local

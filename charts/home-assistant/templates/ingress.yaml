@@ -23,7 +23,7 @@ spec:
               service:
                 name: {{ .Release.Name }}
                 port:
-                  name: http
+                  name: 8123
         {{- with .Values.ingress.extraPaths }}
           {{- tpl (toYaml .) $ | nindent 10 }}
         {{- end }}
