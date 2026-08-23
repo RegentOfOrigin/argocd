@@ -1,32 +1,3 @@
-macvlanAttachment: multus/macvlan
-
-securityContext:
-  privileged: true
-  capabilities:
-    add: [ "NET_BROADCAST" ]
-
-volumes:
-  - name: dev-skyconnect
-    hostPath:
-      path: /dev/serial/by-id/usb-Nabu_Casa_SkyConnect_v1.0_523dbab6b596ed1197bac098a7669f5d-if00-port0
-  - name: dev-nabu-casa-zbt-2
-    hostPath:
-      path: /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_DCB4D910D260-if00
-
-volumeMounts:
-  - name: dev-skyconnect
-    mountPath: /dev/ttyUSB0
-    mountPropagation: Bidirectional
-  - name: dev-nabu-casa-zbt-2
-    mountPath: /dev/ttyACM0
-    mountPropagation: Bidirectional
-
-nodeSelector: {}
-
-nodeName: 'aether'
-
-tolerations: []
-
 ingress:
   enabled: true
   annotations:

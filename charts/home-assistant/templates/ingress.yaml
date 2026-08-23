@@ -1,4 +1,3 @@
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -27,52 +26,7 @@ spec:
         {{- with .Values.ingress.extraPaths }}
           {{- tpl (toYaml .) $ | nindent 10 }}
         {{- end }}
-    {{- with .Values.ingress.extraRules }}
-      {{- tpl (toYaml .) $ | nindent 4 }}
-    {{- end }}
   tls:
     - secretName: {{ .Release.Name }}-server-tls
       hosts:
         - {{ tpl (.Values.ingress.hostname) $ }}
----
-{{- if .Values.addons.esphome.enabled }}
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ .Release.Name }}-addons
-  labels:
-    {{- include "home-assistant.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-spec:
-  {{- with .Values.ingress.className }}
-  ingressClassName: {{ tpl . $ }}
-  {{- end }}
-  rules:
-    {{- range $name, $value := $.Values.addons }}
-    {{- if not $value.enabled }}{{ continue }}{{ end }}
-    - host: {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $.Release.Name }}
-                port:
-                  name: {{ $name }}
-    {{- end }}
-    {{- with .Values.ingress.extraRules }}
-      {{- tpl (toYaml .) $ | nindent 4 }}
-    {{- end }}
-  tls:
-    - secretName: {{ .Release.Name }}-server-addons-tls
-      hosts:
-        {{- range $name, $value := $.Values.addons }}
-        {{- if not $value.enabled }}{{ continue }}{{ end }}
-        - {{ $name }}.{{ tpl $.Values.ingress.hostname $ }}
-        {{- end }}
-{{- end }}
-{{- end }}

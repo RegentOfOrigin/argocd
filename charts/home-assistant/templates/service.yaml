@@ -5,19 +5,6 @@ metadata:
   labels:
     {{- include "home-assistant.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - name: http
-      targetPort: http
-      port: {{ .Values.service.port }}
-      protocol: TCP
-    {{- range $name, $value := .Values.addons }}
-    {{- if $value.enabled }}
-    - name: {{ $name }}
-      targetPort: {{ $name }}
-      port: {{ $value.service.port }}
-      protocol: TCP
-    {{- end }}
-    {{- end }}
-  selector:
-    {{- include "home-assistant.selectorLabels" . | nindent 4 }}
+spec:
+  type: ExternalName
+  externalName: homeassistant.local:8123
