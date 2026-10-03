@@ -1,5 +1,5 @@
 image:
-  repository: recyclarr/recyclarr
+  repository: ghcr.io/recyclarr/recyclarr
 user: ''
 group: ''
 securityContext:
