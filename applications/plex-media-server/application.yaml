@@ -18,83 +18,10 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    repoURL: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
-    chart: plex-media-server
-    targetRevision: 1.*
+    repoURL: https://github.com/RegentOfOrigin/argocd.git
+    path: charts/plex-media-server
+    targetRevision: HEAD
     helm:
-      valuesObject:
-        image:
-          tag: "latest"
-          pullPolicy: Always
-        ingress:
-          enabled: true
-          url: plex.lexrj.com
-          ingressClassName: nginx
-          annotations:
-            cert-manager.io/cluster-issuer: cloudflare
-            nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
-          tls:
-            - hosts:
-                - plex.lexrj.com
-              secretName: plex-media-server-server-tls
-        extraEnv:
-          ADVERTISE_IP: https://plex.lexrj.com:443
-        serviceAccount:
-          automountServiceAccountToken: true
-        pms:
-          resources:
-            requests:
-              cpu: 3
-              memory: 4000Mi
-        extraVolumes:
-          - name: dev-dri
-            hostPath:
-              path: /dev/dri
-              type: Directory
-          - name: multimedia
-            hostPath:
-              path: /tank/multimedia
-              type: Directory
-        extraInitContainers:
-          - name: imagemaid
-            image: kometateam/imagemaid
-            restartPolicy: Always
-            env:
-              - name: PLEX_PATH
-                value: /config
-              - name: MODE
-                value: remove
-              - name: SCHEDULE
-                value: 05:00|weekly(monday)
-              - name: PLEX_URL
-                value: http://localhost:32400
-              - name: TIMEOUT
-                value: '600'
-              - name: SLEEP
-                value: '60'
-              - name: PHOTO_TRANSCODER
-                value: 'True'
-              - name: CLEAN_BUNDLES
-                value: 'True'
-              - name: OPTIMIZE_DB
-                value: 'True'
-              - name: PLEX_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: plex-token
-                    key: token
-            volumeMounts:
-              - name: pms-config
-                mountPath: /config
-                subPath: 'Library/Application Support/Plex Media Server/'
-        extraVolumeMounts:
-          - name: dev-dri
-            mountPath: /dev/dri
-          - name: multimedia
-            mountPath: /multimedia
-        nodeSelector:
-          node.lexrj.com/role: 'storage'
-        tolerations:
-          - key: 'node.lexrj.com/role'
-            operator: 'Equal'
-            value: 'storage'
+      valueFiles:
+        - values.yaml
+        - values-lexrj.yaml

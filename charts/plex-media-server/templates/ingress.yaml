@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ tpl . $ }}
+  {{- end }}
+  rules:
+    - host: {{ tpl .Values.ingress.hostname $ }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: 32400
+        {{- with .Values.ingress.extraPaths }}
+          {{- tpl (toYaml .) $ | nindent 10 }}
+        {{- end }}
+  tls:
+    - secretName: {{ .Release.Name }}-server-tls
+      hosts:
+        - {{ tpl (.Values.ingress.hostname) $ }}
